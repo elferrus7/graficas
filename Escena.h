@@ -4,14 +4,21 @@
 // Para Windows:
 #include <gl/glut.h>
 // Para Mac OS:
-//include <GLUT/glut.h>
+//#include <GLUT/glut.h>
 #define _USE_MATH_DEFINES
 #include "math3d.h"
-//include "glm.h"
 
 #define MAX_NOMBRE 512
 #define MAX_LUCES  8
 #define SPECULAR_SHININESS 120.0
+
+//Multiplicadores para interpretar desplazamientos de mouse
+#define MOUSE_MUL_TX 7.0      //Multipicador para traslacion en X
+#define MOUSE_MUL_TY 5.0      //Multipicador para traslacion en Y
+#define MOUSE_MUL_TZ 30.0     //Multipicador para traslacion en Z
+#define MOUSE_MUL_RX 50.0     //Multipicador para rotacion respecto a eje X
+#define MOUSE_MUL_RY 50.0     //Multipicador para rotacion respecto a eje Y
+#define MOUSE_DELTA_MIN 0.001 //Delta minima para inicializacion
 
 using namespace std;
 
@@ -43,12 +50,14 @@ class Objeto
 	GLuint  displayList;
 	unsigned long loopFrames;
 	Escena *escenaActual;
+	map <string, Objeto *> descendientes;
 
 	Objeto();
     ~Objeto();
 	virtual void actualiza();
 	virtual void forma() {};
 	virtual void dibuja();
+	void agregaDescendiente(string nombre,Objeto *nuevoObjeto);
 };
 
 class Esfera : Objeto
@@ -127,6 +136,7 @@ class Escena
         map <string, Objeto *> objetos;
 		unsigned long currentFrame;
 		bool muestraLuces;
+		GLenum shadeModel;
 		
 		Escena();
 		~Escena();

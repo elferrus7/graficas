@@ -12,11 +12,16 @@
 
 Escena *escena = new Escena();
 Camara *camaraFrontal = new Camara(0.0,-3.0,-20.0,0.0,0.0,0.0,100.0,1.0,45.0);
-Camara *camaraZenital = new Camara(0.0,0.0,-100.0,90.0,0.0,0.0,100.0,1.0,45.0);
+Camara *camaraZenital = new Camara(0.0,0.0,-20.0,90.0,0.0,0.0,100.0,1.0,45.0);
 Camara *activa=camaraFrontal;
 int currWidth,currHeight;
 GLfloat dtran=0.1;
 GLfloat drot=0.5;
+bool leftMouse;       //Boton izquierdo oprimido
+bool rightMouse;      //Boton derecho oprimido
+bool middleMouse;     //Boton central oprimido
+int lastMouseX;       //Posicion previa de mouse en X
+int lastMouseY;       //Posicion previa de mouse en Y
 
 void idle()
 {
@@ -42,68 +47,103 @@ void render()
 
 void defineLuces()
 {
-	//Agremamos luz tipo de Defese
-	escena->defineLuz("light0",'E',1.0, 1.0, 1.0);
-	escena->posicionLuz("light0",-3.0,20.0,-1.0);
-
-	escena->defineLuz("light1",'E',1.0, 1.0, 1.0);
-	escena->posicionLuz("light1",3.0,20.0,1.0);
-
-    /*escena->defineLuz("light0",'E', 1.0, 0.5, 0.5);
-	escena->posicionLuz("light0", 3.0, 3.0, 1.0);
-	escena->objetos["light0"]->velX = 0.1;
-	escena->objetos["light0"]->loopFrames = 100;
-	//Agreamos otra luz tipo espcuclar 'E' con color wherever, posicionamos y giramos 
-	escena->defineLuz("light1",'A', 0.5, 1.0, 0.5);
-	escena->posicionLuz("light1", -3.0, 3.0, 1.0);
-	escena->objetos["light1"]->velX = 0.1;
-	escena->objetos["light1"]->loopFrames = 100;*/
-
-	//Muesta esferas en las posiciones de las luces
-	escena->muestraLuces=true;
+    // Agregamos luz tipo Diffuse con color (rosa), posicionamos y movemos
+	escena->defineLuz("light0",'E', 1.0, 1.0, 1.0);
+	escena->posicionLuz("light0", -3.0, 20.0, -1.0);	
+	escena->defineLuz("light1",'E', 1.0, 1.0, 1.0);
+	escena->posicionLuz("light1", 3.0, 20.0, 1.0);	
+	//Muestra esferas en las posiciones de las luces
+	escena->muestraLuces=false;
 }
 
-void piramide(char *prefijo,int escalones, GLfloat tamano, GLfloat posX)
+void sol(){
+	escena->agregaObjeto("sol",(Objeto *) new Esfera(3.0,40,40,1.0,1.0,0.0));
+	escena->objetos["sol"]->rotX=90.0;
+	escena->objetos["sol"]->velRotZ=0.4;
+}
+
+void mercurio(){
+	escena->objetos["sol"]->agregaDescendiente("mercurio", (Objeto *) new Esfera(0.5, 30,30, 0.21, 0.35, 0.42) );
+	escena->objetos["sol"]->descendientes["mercurio"]->posX=5.0;
+}
+
+void venus(){
+	escena->objetos["sol"]->agregaDescendiente("venus", (Objeto *) new Esfera(0.7, 30,30, 0.89, 0.47, 0.20));
+	escena->objetos["sol"]->descendientes["venus"]->posX=-7.0;
+	escena->objetos["sol"]->descendientes["venus"]->posY=-5.0;
+}
+
+void tierra(){
+	escena->objetos["sol"]->agregaDescendiente("tierra",(Objeto *) new Esfera(0.5,40,40,0.0,0.0,1.0));
+	escena->objetos["sol"]->descendientes["tierra"]->posX=7.5;
+	escena->objetos["sol"]->descendientes["tierra"]->posY=7.0;
+	escena->objetos["sol"]->descendientes["tierra"]->velRotZ=5.0;
+   
+	escena->objetos["sol"]->descendientes["tierra"]->agregaDescendiente("luna",(Objeto *) new Esfera(0.1,20,20,1.0,1.0,1.0));
+	escena->objetos["sol"]->descendientes["tierra"]->descendientes["luna"]->posX=1.0;
+    
+}
+
+void marte(){
+	escena->objetos["sol"]->agregaDescendiente("marte", (Objeto *) new Esfera (0.35, 30, 30, 0.83, 0.1, 0.12));
+	escena->objetos["sol"]->descendientes["marte"]->posX=-11.5;
+}
+
+void jupiter(){
+	escena->objetos["sol"]->agregaDescendiente("jupiter", (Objeto *) new Esfera (1.5, 30, 30, 0.8, 0.8, 1.0));
+	escena->objetos["sol"]->descendientes["jupiter"]->posX=7.0;
+	escena->objetos["sol"]->descendientes["jupiter"]->posY=-11.0;
+}
+
+void saturno(){
+	escena->objetos["sol"]->agregaDescendiente("saturno", (Objeto *) new Esfera (0.7, 30, 30, 0.82, 0.89, 0.19));
+	escena->objetos["sol"]->descendientes["saturno"]->posX=-7.0;
+	escena->objetos["sol"]->descendientes["saturno"]->posY=11.0;
+}
+
+void urano(){
+	escena->objetos["sol"]->agregaDescendiente("urano", (Objeto *) new Esfera (0.7, 30, 30, 0.83, 0.83, 0.83));
+	escena->objetos["sol"]->descendientes["urano"]->posX=21.0;
+}
+
+void neptuno(){
+	escena->objetos["sol"]->agregaDescendiente("neptuno", (Objeto *) new Esfera (0.5, 30, 30, 0.41, 0.35, 0.80));
+	escena->objetos["sol"]->descendientes["neptuno"]->posX=21.0;
+	escena->objetos["sol"]->descendientes["neptuno"]->posY=-9.0;
+
+}
+
+void pluton(){
+	escena->objetos["sol"]->agregaDescendiente("pluton", (Objeto *) new Esfera (0.25, 30, 30, 0.42, 0.42, 0.42));
+	escena->objetos["sol"]->descendientes["pluton"]->posX=-15.0;
+	escena->objetos["sol"]->descendientes["pluton"]->posY=9.0;
+}
+
+void solar()
 {
-	char nombre[25];
-	for (int i = 0; i < escalones; i++)
-	{
-		sprintf(nombre,prefijo,i);
-		escena->agregaObjeto(nombre,(Objeto *) new Cubo(tamano,rcolor(),rcolor(),rcolor()));
-		escena->objetos[nombre]->posY = i * tamano;
-		escena->objetos[nombre]->posX = posX;
-		escena->objetos[nombre]->velRotX = 1.0;
-		escena->objetos[nombre]->velY = 0.1 * i;
-		escena->objetos[nombre]->loopFrames = 100;
-		escena->objetos[nombre]->escalaX = escalones-i;
-		escena->objetos[nombre]->escalaZ = escalones-i;
-	}
+   sol();
+   // TO DO: Agregar otros planetas
+   
+   //Agregar tierra y luna
+   
+   mercurio();
+   venus();
+   tierra();
+   marte();
+   jupiter();
+   saturno();
+   urano();
+   neptuno();
+   pluton();
 }
 
 void creaEscena()
-{
-	piramide("uno%d",25,0.75,0.0);
-	//piramide("dps%d",15,0.3,5.0);
+{ 
+    escena->shadeModel=GL_FLAT;
+    solar();
 }
 
-/*void creaEscena()
-{ 
-	piramide(7,0.5);
-    /*escena->agregaObjeto("avion",(Objeto *) new Avion(0.0,0.0,1.0));
-    escena->objetos["avion"]->escalaX=0.07;
-    escena->objetos["avion"]->escalaY=0.07;
-    escena->objetos["avion"]->escalaZ=0.07;
-	escena->objetos["avion"]->posX=-5.0;
-    escena->objetos["avion"]->velRotX=1.0;
-	
-	escena->agregaObjeto("cilindro", (Objeto *) new Cilindro(1.0,2.0,20,1.0,0.5,0.0));
-	escena->objetos["cilindro"]->velRotX=1.0;
-	
-	escena->agregaObjeto("tetera",(Objeto *) new Tetera(2.0,1.0,1.0,0.0));
-	escena->objetos["tetera"]->posX=5.0;
-    escena->objetos["tetera"]->velRotX=1.0;*/
-/*	
-}*/
+
 
 void init(int left,int top,int width,int height,char* title) {
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
@@ -234,15 +274,66 @@ void keyboard(unsigned char key,int x,int y)
 }
 
 
+void mouseClick(int button, int state, int x, int y)
+{
+	switch (button) {
+		case GLUT_LEFT_BUTTON:   leftMouse = (state==GLUT_DOWN);
+								 break;
+								 
+		case GLUT_MIDDLE_BUTTON: middleMouse = (state==GLUT_DOWN);
+							     break;
+								 
+		case GLUT_RIGHT_BUTTON:  rightMouse = (state==GLUT_DOWN);
+							     break;
+
+	}
+	if (state==GLUT_UP) 
+	{
+	      //Reinicia las posiciones previas para permitir movimientos acumulativos
+		  lastMouseX=0;
+          lastMouseY=0;
+	}
+}
+
+void mouseDrag(int x, int y)
+{
+  GLfloat deltaX=(lastMouseX == 0) ? MOUSE_DELTA_MIN : (GLfloat)(x-lastMouseX)/currWidth;
+  GLfloat deltaY=(lastMouseY == 0) ? MOUSE_DELTA_MIN : (GLfloat)(lastMouseY-y)/currHeight;
+  
+   if (leftMouse) //Desplazamiento horizontal/vertical
+	{
+		activa->xview+=MOUSE_MUL_TX * deltaX;
+		activa->yview+=MOUSE_MUL_TY * deltaY;
+		redimensiona(currWidth, currHeight);
+	}
+    if (middleMouse) //Zoom in/Zoom out
+	{
+		activa->zview+=MOUSE_MUL_TZ * deltaY;
+		redimensiona(currWidth, currHeight);
+	}
+	if (rightMouse) //Movimiento horizontal, rotacion respecto a eje Y; Movimiento vertical, rotacion respecto a eje X
+	{
+	   activa->yrot+=MOUSE_MUL_RY * deltaX;
+	   activa->xrot+=MOUSE_MUL_RX * deltaY;
+	   redimensiona(currWidth, currHeight);
+	}
+  lastMouseX=x;
+  lastMouseY=y;
+}
+
+
 int main( int argc, char **argv) {
     // Version
 	glutInit(&argc,argv);	
-	init(100,100,800,400,"Framework Lighting");
+	init(100,100,800,400,"Framework Hierarchy");
 	glutDisplayFunc(render);
 	glutIdleFunc(idle);
 	glutReshapeFunc(redimensiona);
     glutSpecialFunc(keyboardSpec);
 	glutKeyboardFunc(keyboard);
+	// Funciones para interactuar con mouse
+	glutMouseFunc(mouseClick);
+    glutMotionFunc(mouseDrag);
 	defineLuces();
     creaEscena();
 	glutMainLoop();

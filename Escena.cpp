@@ -67,7 +67,15 @@ void Objeto::actualiza()
 	escalaX+=velEscalaX;
 	escalaY+=velEscalaY;
 	escalaZ+=velEscalaZ;
-
+	// Actualizar las transformaciones de los descendientes
+	
+	map<string, Objeto *>::const_iterator iter;   
+	for (iter=descendientes.begin(); iter != descendientes.end(); ++iter) 
+    {
+	   Objeto *o=(Objeto *)iter->second;
+	   o->actualiza();	  	   
+    }
+	
 }
 
 
@@ -83,9 +91,27 @@ void Objeto::dibuja()
 	glRotatef(rotZ,0.0+pivotX,0.0+pivotY,1.0+pivotZ);
 	glColor3f(colorR,colorG,colorB);
     forma();
+	// Dibujar los descendientes
+	
+	map<string, Objeto *>::const_iterator iter;   
+    for (iter=descendientes.begin(); iter != descendientes.end(); ++iter) 
+    {
+	   Objeto *o=(Objeto *)iter->second;
+	   o->dibuja();	  	   
+    }
+	
 	glPopMatrix();
 	glColor3f(1.0,1.0,1.0);
 }
+
+// Agregar descendientes
+
+void Objeto::agregaDescendiente(string nombre,Objeto *nuevoObjeto)
+{
+	descendientes[nombre]=nuevoObjeto;	
+	descendientes[nombre]->escenaActual=this->escenaActual;
+}
+
 
 
 //Metodos del cubo
@@ -240,8 +266,8 @@ void Avion::forma()
 	for (int i=0; i<17; i++) {
 	    // TODO: Agregar normal
 		M3DVector3f normal;
-		 m3dFindNormal(normal, avion[i][0], avion[i][1], avion[i][2]);
-		 glNormal3fv(normal);
+		m3dFindNormal(normal, avion[i][0], avion[i][1],avion[i][2]);
+		glNormal3fv(normal);
 		glVertex3fv(avion[i][0]);
 		glVertex3fv(avion[i][1]);
 		glVertex3fv(avion[i][2]);
@@ -289,6 +315,7 @@ Escena::Escena()
 {
   currentFrame=0;
   muestraLuces=false;
+  shadeModel=GL_SMOOTH;
   char nombre[MAX_NOMBRE];
   for (int i=0; i<MAX_LUCES; i++) 
   {
@@ -429,7 +456,7 @@ void Escena::ilumina()
   glEnable(GL_NORMALIZE);
   glEnable(GL_COLOR_MATERIAL);
   glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER,GL_TRUE);
-  glShadeModel(GL_SMOOTH);
+  glShadeModel(shadeModel);
   for (int i=0; i<MAX_LUCES; i++) 
   {
 	 Luz *l=luz(i);
