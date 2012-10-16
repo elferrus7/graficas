@@ -64,11 +64,24 @@
   <ItemGroup>
     <ClCompile Include="..\Escena.cpp" />
     <ClCompile Include="..\Framework.cpp" />
+    <ClCompile Include="..\glm.cpp" />
+    <ClCompile Include="..\Interaccion.cpp" />
     <ClCompile Include="..\math3d.cpp" />
+    <ClCompile Include="..\misCamaras.cpp" />
+    <ClCompile Include="..\misComposiciones.cpp" />
+    <ClCompile Include="..\misInteracciones.cpp" />
+    <ClCompile Include="..\misObjetos.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Escena.h" />
+    <ClInclude Include="..\glm.h" />
+    <ClInclude Include="..\globales.h" />
+    <ClInclude Include="..\Interaccion.h" />
     <ClInclude Include="..\math3d.h" />
+    <ClInclude Include="..\misCamaras.h" />
+    <ClInclude Include="..\misComposiciones.h" />
+    <ClInclude Include="..\misInteracciones.h" />
+    <ClInclude Include="..\misObjetos.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

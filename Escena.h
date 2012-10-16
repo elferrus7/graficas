@@ -4,9 +4,9 @@
 #include <math.h>
 #include <string>
 // Para Windows:
-//#include <gl/glut.h>
+#include <gl/glut.h>
 // Para Mac OS:
-#include <GLUT/glut.h>
+//#include <GLUT/glut.h>
 #define _USE_MATH_DEFINES
 #include "math3d.h"
 #include "glm.h"

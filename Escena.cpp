@@ -675,7 +675,7 @@ void Escena::ilumina()
   glEnable(GL_COLOR_MATERIAL);
   glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER,GL_TRUE);
   glLightModeli(GL_LIGHT_MODEL_TWO_SIDE,GL_TRUE);
-  glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL,GL_SEPARATE_SPECULAR_COLOR);
+  //glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL,GL_SEPARATE_SPECULAR_COLOR);
   glShadeModel(GL_SMOOTH);
   for (int i=0; i<MAX_LUCES; i++) 
   {
@@ -851,7 +851,7 @@ void Escena::modificaMaterial(string nombreModelo,string nombreMaterial,string n
 	Modelo *modelo=(Modelo *)objetos[nombreModelo];
 	modelo->desplazaTexturas=true;
 	GLMmodel *m=modelo->modelo;
-	int i;
+	unsigned i;
 
 	for(i=0; i<m->nummaterials; i++)
 		if(strcmp(nombreMaterial.c_str(),m->materials[i].name)==0)
