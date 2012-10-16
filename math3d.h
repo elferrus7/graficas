@@ -3,6 +3,8 @@
 // accompanying math.c are meant to suppliment math.h by adding geometry/math routines
 // useful for graphics, simulation, and physics applications (3D stuff).
 // Richard S. Wright Jr.
+#pragma once
+
 #ifndef _MATH3D_LIBRARY__
 #define _MATH3D_LIBRARY__
 
