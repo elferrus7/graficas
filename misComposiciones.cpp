@@ -67,6 +67,7 @@ void demuestraMateriales()
 
 void creaEscena()
 {
-  demuestraModelo();
+  //demuestraModelo();
+	escena->agregaObjeto("paralelepipedo", (Objeto *) new Paralelepipedo(5.0, 2.5, 1.0));
 }
 

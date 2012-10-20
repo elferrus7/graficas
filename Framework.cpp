@@ -9,7 +9,7 @@
 #include "misCamaras.h"
 
 //Deshabilita la consola  (exclusivo para Windows - Visual Studio)
-#pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
+//#pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
 
 //Variables globales
 Escena *escena = new Escena();  //Escena actual

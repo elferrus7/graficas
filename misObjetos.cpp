@@ -105,6 +105,86 @@ void Cilindro::cuerpo()
 }
 
 
+/* ---------------------------------------------------------------- */
+/* -------------------- Métodos Paralelepipedo -------------------- */
+/* ---------------------------------------------------------------- */
+
+Paralelepipedo::Paralelepipedo(GLfloat largo, GLfloat alto, GLfloat ancho):Objeto()
+{
+	this->largo = largo;
+	this->alto = alto;
+	this->ancho = ancho;
+}
+
+void Paralelepipedo::forma()
+{
+	//Primer cuadro
+	glBegin(GL_QUAD_STRIP);
+ 
+	glVertex3f(0.0, 0.0, 0.0);
+
+	glVertex3f(0.0, alto, 0.0); 
+
+	glVertex3f(largo, 0.0, 0.0);
+
+	glVertex3f(largo, alto, 0.0);
+
+	//Segundo cuadro
+ 
+	glVertex3f(largo, 0.0, ancho);
+
+	glVertex3f(largo, alto, ancho); 
+	
+	//Tercer cuadro
+
+	glVertex3f(0.0, 0.0, ancho);
+
+	glVertex3f(0.0, alto, ancho); 
+
+	//Cuarto cuadro
+ 
+	glVertex3f(0.0, 0.0, 0.0);
+
+	glVertex3f(0.0, alto, 0.0); 
+
+	glEnd();
+
+	//Base
+	glBegin(GL_QUADS);
+ 
+	//Esquina inferior izquierda
+	glVertex3f(0.0, 0.0, 0.0);
+
+	//Esquina superior izquierda
+	glVertex3f(0.0, 0.0, ancho); 
+
+	//Esquina superior derecha
+	glVertex3f(largo, 0.0, ancho);
+
+	//Esquina inferior derecha
+	glVertex3f(largo, 0.0, 0.0);
+ 
+	glEnd();
+
+	//Tapa
+	glBegin(GL_QUADS);
+ 
+	//Esquina inferior izquierda
+	glVertex3f(0.0, alto, 0.0);
+
+	//Esquina superior izquierda
+	glVertex3f(0.0, alto, ancho); 
+
+	//Esquina superior derecha
+	glVertex3f(largo, alto, ancho);
+
+	//Esquina inferior derecha
+	glVertex3f(largo, alto, 0.0);
+
+	glEnd();
+}
+
+
 
 
 

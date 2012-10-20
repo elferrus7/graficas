@@ -6,6 +6,8 @@
 class Cilindro;
 class Avion;
 
+class Paralelepipedo;
+
 class Avion : Objeto
 {
   public:
@@ -28,4 +30,16 @@ class Cilindro : Objeto
 	void cuerpo();
 };
 
+/* ---------------------------------------------------------------- */
+/* ------------ Definición de la clase Paralelepipedo ------------- */
+/* ---------------------------------------------------------------- */
+
+class Paralelepipedo : Objeto
+{
+	public:
+		GLfloat largo, alto, ancho;
+		Paralelepipedo(GLfloat largo, GLfloat alto, GLfloat ancho);
+		~Paralelepipedo();
+		void forma();
+};
 
