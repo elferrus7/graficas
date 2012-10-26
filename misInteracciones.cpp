@@ -14,13 +14,16 @@ void miTeclado(unsigned char key,int x,int y)
 			case '-': activa->zview-=dtran;
 					redimensiona(currWidth,currHeight);
 					break;*/
+			case '1': activa = camaraDefault;
+
+			case '2': activa = camaraZenital;
 
 			case 'd': activa->yrot+=drot;
 					redimensiona(currWidth,currHeight);
 					break;
-			case 'w': activa->zrot+=drot;
+			/*case 'w': activa->zrot+=drot;
 					redimensiona(currWidth,currHeight);
-					break;
+					break;*/
 			/*case 'z': activa->zrot+=drot;		  
 					redimensiona(currWidth,currHeight);
 					break;*/
@@ -29,9 +32,9 @@ void miTeclado(unsigned char key,int x,int y)
 					redimensiona(currWidth,currHeight);
 					break;
 
-			case 's': activa->zrot-=drot;
+			/*case 's': activa->zrot-=drot;
 					redimensiona(currWidth,currHeight);
-					break;
+					break;*/
 
 			/*case 'Z': activa->zrot-=drot;
 					redimensiona(currWidth,currHeight);
