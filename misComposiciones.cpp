@@ -119,7 +119,7 @@ void exteriorCasa(){
 	escena->objetos["PV9"]->posZ = -5.75;
 	escena->objetos["PV9"]->rotY = 90.0;
 
-	escena->agregaObjeto("PV10", (Objeto *) new Paralelepipedo(1, ALTOCASA, ANCHOPARED));
+	escena->agregaObjeto("PV10", (Objeto *) new Paralelepipedo(1.25, ALTOCASA, ANCHOPARED));
 	escena->objetos["PV10"]->posX = 3.5;
 	escena->objetos["PV10"]->posZ = -7.5;
 	escena->objetos["PV10"]->rotY = 90.0;
@@ -235,6 +235,30 @@ void exteriorCasa(){
 	escena->agregaObjeto("PH13", (Objeto *) new Paralelepipedo(2, ALTOCASA, ANCHOPARED));
 	escena->objetos["PH13"]->posX = 9.5;
 	escena->objetos["PH13"]->posZ = -9.25;
+
+	escena->agregaObjeto("PH14", (Objeto *) new Paralelepipedo(1.5, ALTOCASA, ANCHOPARED));
+	escena->objetos["PH14"]->posX = 6.75;
+	escena->objetos["PH14"]->posZ = -9.25;
+
+	escena->agregaObjeto("PH15", (Objeto *) new Paralelepipedo(0.25, ALTOCASA, ANCHOPARED));
+	escena->objetos["PH15"]->posX = 9.25;
+	escena->objetos["PH15"]->posZ = -10;
+
+	escena->agregaObjeto("PH16", (Objeto *) new Paralelepipedo(2.25, ALTOCASA, ANCHOPARED));
+	escena->objetos["PH16"]->posX = 9.25;
+	escena->objetos["PH16"]->posZ = -11.5;
+
+	escena->agregaObjeto("PH17", (Objeto *) new Paralelepipedo(1.25, ALTOCASA, ANCHOPARED));
+	escena->objetos["PH17"]->posX = 6.75;
+	escena->objetos["PH17"]->posZ = -11.5;
+
+	escena->agregaObjeto("PH18", (Objeto *) new Paralelepipedo(3.75, ALTOCASA, ANCHOPARED));
+	escena->objetos["PH18"]->posX = 9.25;
+	escena->objetos["PH18"]->posZ = -12.75;
+
+	escena->agregaObjeto("PH19", (Objeto *) new Paralelepipedo(5, ALTOCASA, ANCHOPARED));
+	escena->objetos["PH19"]->posX = 8;
+	escena->objetos["PH19"]->posZ = -17.25;
 }
 
 void salaCasa(){
