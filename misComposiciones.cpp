@@ -6,16 +6,17 @@
 
 void defineLuces()
 {
-    escena->defineLuz("light0",'D', 1.0, 1.0, 1.0);
+    escena->defineLuz("light0",'D', 1.0, 0.0, 0.0);
 	escena->posicionLuz("light0", 0.0, 3.0, 1.0);
 	
-    escena->defineLuz("light1",'E', 1.0, 1.0, 1.0);
+    escena->defineLuz("light1",'E', 0.0, 1.0, 0.0);
 	escena->posicionLuz("light1", 1.0, -2.0, 1.0);
 	
-	escena->defineLuz("light2",'S', 1.0, 1.0, 1.0);
+	escena->defineLuz("light2",'S', 0.0, 0.0, 1.0);
 	escena->posicionLuz("light2", 0.0, 8.0, 0.0);
 	escena->direccionLuz("light2", 0.0, -1.0, 0.0);
 	escena->anguloLuz("light2", 30.0);
+	escena->muestraLuces = true;
 }
 
 void demuestraModelo()
