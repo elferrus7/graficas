@@ -119,67 +119,98 @@ Paralelepipedo::Paralelepipedo(GLfloat largo, GLfloat alto, GLfloat ancho):Objet
 void Paralelepipedo::forma()
 {
 	//Primer cuadro
+	M3DVector3f normal;
+	
+	M3DVector3f point1 = {0.0f,0.0f,0.0f};
+	M3DVector3f point2 = {0.0f, alto, 0.0f};
+	M3DVector3f point3 = {largo, 0.0f, 0.0f};
+	M3DVector3f point4 = {largo, alto, 0.0f};
 	glBegin(GL_QUAD_STRIP);
- 
-	glVertex3f(0.0, 0.0, 0.0);
+	
+	m3dFindNormal(normal, point1, point1, point1);
 
-	glVertex3f(0.0, alto, 0.0); 
+	glNormal3fv(normal);
 
-	glVertex3f(largo, 0.0, 0.0);
+	glVertex3fv(point1);
 
-	glVertex3f(largo, alto, 0.0);
+	glVertex3fv(point2); 
+
+	glVertex3fv(point3);
+
+	glVertex3fv(point4);
 
 	//Segundo cuadro
- 
-	glVertex3f(largo, 0.0, ancho);
+	
+	M3DVector3f point5 = {largo, 0.0f, ancho};
+	M3DVector3f point6 = {largo, alto, ancho};
+	M3DVector3f normal2;
+	m3dFindNormal(normal2,point4,point5,point6);
 
-	glVertex3f(largo, alto, ancho); 
+	glNormal3fv(normal2);
+
+	glVertex3fv(point5);
+
+	glVertex3fv(point6); 
 	
 	//Tercer cuadro
+	M3DVector3f point7 = {0.0f, 0.0f, ancho};
+	M3DVector3f point8 = {0.0f, alto, ancho};
+	M3DVector3f normal3;
+	m3dFindNormal(normal3,point6,point7,point8);
 
-	glVertex3f(0.0, 0.0, ancho);
+	glNormal3fv(normal3);
 
-	glVertex3f(0.0, alto, ancho); 
+	glVertex3fv(point7);
+
+	glVertex3fv(point8);
 
 	//Cuarto cuadro
- 
-	glVertex3f(0.0, 0.0, 0.0);
 
-	glVertex3f(0.0, alto, 0.0); 
+	M3DVector3f normal4;
+	m3dFindNormal(normal4,point1,point2,point8);
+	glNormal3fv(normal4);
+	glVertex3fv(point1);
+
+	glVertex3fv(point2); 
 
 	glEnd();
 
 	//Base
 	glBegin(GL_QUADS);
- 
+	
+	M3DVector3f normal5;
+	m3dFindNormal(normal5,point1,point7,point5);
+	glNormal3fv(normal5);
 	//Esquina inferior izquierda
-	glVertex3f(0.0, 0.0, 0.0);
+	glVertex3fv(point1);
 
 	//Esquina superior izquierda
-	glVertex3f(0.0, 0.0, ancho); 
+	glVertex3fv(point7); 
 
 	//Esquina superior derecha
-	glVertex3f(largo, 0.0, ancho);
+	glVertex3fv(point5);
 
 	//Esquina inferior derecha
-	glVertex3f(largo, 0.0, 0.0);
+	glVertex3fv(point3);
  
 	glEnd();
 
 	//Tapa
 	glBegin(GL_QUADS);
- 
+	M3DVector3f normal6;
+	m3dFindNormal(normal6,point2,point8,point6);
+	glNormal3fv(normal6);
 	//Esquina inferior izquierda
-	glVertex3f(0.0, alto, 0.0);
+	glVertex3fv(point2);
 
 	//Esquina superior izquierda
-	glVertex3f(0.0, alto, ancho); 
+	glVertex3fv(point8); 
 
 	//Esquina superior derecha
-	glVertex3f(largo, alto, ancho);
+	glVertex3fv(point6);
 
 	//Esquina inferior derecha
-	glVertex3f(largo, alto, 0.0);
+	glVertex3fv(point4);
 
 	glEnd();
 }

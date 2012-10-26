@@ -6,16 +6,24 @@
 
 void defineLuces()
 {
-    escena->defineLuz("light0",'A', 1.0, 1.0, 1.0);
-	escena->posicionLuz("light0", 0.0, 3.0, 1.0);
+    //escena->defineLuz("light0",'A', 0.084, 0.084, 0.084);
+	escena->defineLuz("light0",'A', 0.2, 0.2, 0.2);
+	escena->posicionLuz("light0", 0.25, 1.0, -2.0);
+
+	//escena->defineLuz("light1",'D', 0.916, 0.916, 0.916);
+	escena->defineLuz("light1",'D', 0.08, 0.08, 0.08);
+	escena->posicionLuz("light1", 0.5, 1.0, -2.0);
+
+	escena->defineLuz("light2",'E', 0.0, 0.1, 0.0);
+	escena->posicionLuz("light2", 0.75, 1, -2.0);
+
+    /*escena->defineLuz("light1",'E', 0.0, 1.0, 0.0);
+	escena->posicionLuz("light1", 5.0, 0.0, 5.0);
 	
-    escena->defineLuz("light1",'E', 0.0, 1.0, 0.0);
-	escena->posicionLuz("light1", 1.0, -2.0, 1.0);
-	
-	escena->defineLuz("light2",'S', 0.0, 0.0, 1.0);
-	escena->posicionLuz("light2", 0.0, 8.0, 0.0);
-	escena->direccionLuz("light2", 0.0, -1.0, 0.0);
-	escena->anguloLuz("light2", 30.0);
+	escena->defineLuz("light2",'D', 0.916, 0.916, 0.916);
+	escena->posicionLuz("light2", 0.25, 1, -2.0);*/
+	//escena->direccionLuz("light2", 0.0, 1.0, 0.0);
+	//escena->anguloLuz("light2", 30.0);
 	escena->muestraLuces = false;
 }
 
