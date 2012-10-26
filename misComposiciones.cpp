@@ -254,11 +254,25 @@ void exteriorCasa(){
 
 	escena->agregaObjeto("PH18", (Objeto *) new Paralelepipedo(3.75, ALTOCASA, ANCHOPARED));
 	escena->objetos["PH18"]->posX = 9.25;
-	escena->objetos["PH18"]->posZ = -12.75;
+	escena->objetos["PH18"]->posZ = -12.5;
 
 	escena->agregaObjeto("PH19", (Objeto *) new Paralelepipedo(5, ALTOCASA, ANCHOPARED));
 	escena->objetos["PH19"]->posX = 8;
 	escena->objetos["PH19"]->posZ = -17.25;
+
+	escena->agregaObjeto("Piso", (Objeto *) new Paralelepipedo(13.25, 9.0, 0.1));
+	escena->objetos["Piso"]->rotX=90;
+	escena->objetos["Piso"]->posZ=-9.0;
+
+	escena->agregaObjeto("Piso2", (Objeto *) new Paralelepipedo(11.0, 3.0, 0.1));
+	escena->objetos["Piso2"]->rotX=90;
+	escena->objetos["Piso2"]->posX=2.25;
+	escena->objetos["Piso2"]->posZ=-12.0;
+
+	escena->agregaObjeto("Piso3", (Objeto *) new Paralelepipedo(5.0, 5.25, 0.1));
+	escena->objetos["Piso3"]->rotX=90;
+	escena->objetos["Piso3"]->posX=8.25;
+	escena->objetos["Piso3"]->posZ=-17.0;
 }
 
 void salaCasa(){
