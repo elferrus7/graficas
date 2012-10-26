@@ -273,6 +273,15 @@ void exteriorCasa(){
 	escena->objetos["Piso3"]->rotX=90;
 	escena->objetos["Piso3"]->posX=8.25;
 	escena->objetos["Piso3"]->posZ=-17.0;
+
+	escena->agregaObjeto("Pasto1", (Objeto *) new Paralelepipedo(2.25, 8.0, 0.1));
+	escena->objetos["Pasto1"]->rotX=90;
+	escena->objetos["Pasto1"]->posZ=-16.75;
+
+	escena->agregaObjeto("Pasto2", (Objeto *) new Paralelepipedo(6.5, 4.75, 0.1));
+	escena->objetos["Pasto2"]->rotX=90;
+	escena->objetos["Pasto2"]->posX=2.25;
+	escena->objetos["Pasto2"]->posZ=-16.75;
 }
 
 void salaCasa(){
