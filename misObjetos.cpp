@@ -118,6 +118,7 @@ Paralelepipedo::Paralelepipedo(GLfloat largo, GLfloat alto, GLfloat ancho):Objet
 
 void Paralelepipedo::forma()
 {
+
 	//Primer cuadro
 	M3DVector3f normal;
 	

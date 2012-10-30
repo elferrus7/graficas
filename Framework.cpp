@@ -21,7 +21,7 @@ bool rightMouse=false;          //Boton derecho oprimido
 bool middleMouse=false;         //Boton central oprimido
 int lastMouseX=0;		        //Posicion previa de mouse en X
 int lastMouseY=0;               //Posicion previa de mouse en Y
-bool tecladoDefault=false;       //Determina si debe ejecutarse la interaccion default para teclado
+bool tecladoDefault=true;       //Determina si debe ejecutarse la interaccion default para teclado
 bool mouseDefault=true;        //Determina si debe ejecutarse la interaccion default para mouse
 
 void idle()
