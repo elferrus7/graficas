@@ -7,39 +7,61 @@ void miTeclado(unsigned char key,int x,int y)
    //Definir comportamientos particulares para teclas simples
    switch (key) 
    {
-			/*case '+': activa->zview+=dtran;
-					redimensiona(currWidth,currHeight);		                       
-					break;
+        /*case '+': activa->zview+=dtran;
+                redimensiona(currWidth,currHeight);		                       
+                break;
 
-			case '-': activa->zview-=dtran;
-					redimensiona(currWidth,currHeight);
-					break;*/
-			case '1' : activa = camaraDefault; break;
+        case '-': activa->zview-=dtran;
+                redimensiona(currWidth,currHeight);
+                break;*/
+        case '1' : activa = camaraDefault; break;
 
-			case '2' : activa = camaraZenital; break;
+        case '2' : activa = camaraZenital; break;
 
-			case 'd': activa->yrot+=drot;
-					redimensiona(currWidth,currHeight);
-					break;
-			/*case 'w': activa->zrot+=drot;
-					redimensiona(currWidth,currHeight);
-					break;*/
-			/*case 'z': activa->zrot+=drot;		  
-					redimensiona(currWidth,currHeight);
-					break;*/
-					
-			case 'a': activa->yrot-=drot;
-					redimensiona(currWidth,currHeight);
-					break;
+        case 'd': activa->yrot+=drot;
+                redimensiona(currWidth,currHeight);
+                break;
+        /*case 'w': activa->zrot+=drot;
+                redimensiona(currWidth,currHeight);
+                break;*/
+        /*case 'z': activa->zrot+=drot;		  
+                redimensiona(currWidth,currHeight);
+                break;*/
+                
+        case 'a': activa->yrot-=drot;
+                redimensiona(currWidth,currHeight);
+                break;
 
-			/*case 's': activa->zrot-=drot;
-					redimensiona(currWidth,currHeight);
-					break;*/
+        /*case 's': activa->zrot-=drot;
+                redimensiona(currWidth,currHeight);
+                break;*/
 
-			/*case 'Z': activa->zrot-=drot;
-					redimensiona(currWidth,currHeight);
-					break;*/
-						
+        /*case 'Z': activa->zrot-=drot;
+                redimensiona(currWidth,currHeight);
+                break;*/
+       case 'j':
+           if(!escena->impideColision2(escena->objetos["cubo1"], -dtran, 0.0, 0.0)){
+               escena->objetos["cubo1"]->posX -= dtran;
+           }
+           break;
+           
+       case 'i':
+           if(!escena->impideColision2(escena->objetos["cubo1"], 0.0, 0.0, dtran)){
+               escena->objetos["cubo1"]->posZ += dtran;
+           }
+           break;
+           
+       case 'l':
+           if(!escena->impideColision2(escena->objetos["cubo1"], dtran, 0.0, 0.0)){
+               escena->objetos["cubo1"]->posX += dtran;
+           }
+           break;
+           
+       case 'k':
+           if(!escena->impideColision2(escena->objetos["cubo1"], 0.0, 0.0, -dtran)){
+               escena->objetos["cubo1"]->posZ -= dtran;
+           }
+           break;
 
 		case ESCAPE: exit(0);
 						break;

@@ -396,5 +396,9 @@ void creaEscena()
 {
   //demuestraModelo();
 	creaCasa();
+    
+    escena->agregaObjeto("cubo1", (Objeto*) new Cubo(1.0, 0.0, 0.0, 1.0));
+    escena->objetos["cubo1"]->posX = -3.0;
+    escena->objetos["cubo1"]->posY = 1.0;
 }
 

@@ -4,9 +4,9 @@
 #include <math.h>
 #include <string>
 // Para Windows:
-#include <gl/glut.h>
+//#include <gl/glut.h>
 // Para Mac OS:
-//#include <GLUT/glut.h>
+#include <GLUT/glut.h>
 #define _USE_MATH_DEFINES
 #include "math3d.h"
 #include "glm.h"
@@ -49,7 +49,7 @@
 
 //default para loopFrames en AlphaQuads
 #define DEFAULT_LOOP_FRAMES 0xFFFFFFFF
- 
+
 
 // Estructura del encabezado del archivo de textura TGA
 #pragma pack(1)
@@ -89,14 +89,14 @@ class Escena;
 
 class Objeto
 {
-  public:
+public:
 	GLfloat colorR,colorG,colorB;
 	GLfloat posX,posY,posZ;
 	GLfloat velX,velY,velZ;
 	GLfloat rotX,rotY,rotZ;
 	GLfloat velRotX,velRotY,velRotZ;
 	GLfloat escalaX,escalaY,escalaZ;
-	GLfloat velEscalaX,velEscalaY,velEscalaZ;	
+	GLfloat velEscalaX,velEscalaY,velEscalaZ;
 	GLfloat pivotX,pivotY,pivotZ;
 	GLuint  displayList;
 	unsigned long loopFrames;
@@ -105,25 +105,26 @@ class Objeto
 	GLuint mappingMode;
 	_GLMmaterial material;
 	map <string, Objeto *> descendientes;
-
+    
 	Objeto();
     ~Objeto();
     void escalaUniforme(GLfloat escala);
 	virtual void actualiza();
 	virtual void forma() {};
 	virtual void dibuja();
+    bool detectaColision(Objeto* obj2);
 	void copiaMaterial(string nombreModelo,string nombreMaterial,GLuint	mappingMode);
 	void defineMaterial(GLfloat aR,GLfloat aG,GLfloat aB,
 						GLfloat dR,GLfloat dG,GLfloat dB,
 						GLfloat sR,GLfloat sG,GLfloat sB,
 						GLfloat eR,GLfloat eG,GLfloat eB,
 						string  nombreTextura,
-						GLuint  wrapmode,              
+						GLuint  wrapmode,
 						GLfloat alpha,
-						GLfloat stexdis,			   
-						GLfloat ttexdis,			    
-						GLfloat stexspeed,			
-						GLfloat ttexspeed,			
+						GLfloat stexdis,
+						GLfloat ttexdis,
+						GLfloat stexspeed,
+						GLfloat ttexspeed,
 						GLfloat scale,
 						GLuint	mappingMode,
 						bool lighting);
@@ -134,7 +135,7 @@ class Objeto
 
 class Esfera : Objeto
 {
-  public:
+public:
 	GLfloat radio,meridianos,paralelos;
 	Esfera(GLfloat radio,GLfloat meridianos,GLfloat paralelos,GLfloat r,GLfloat g,GLfloat b);
     ~Esfera();
@@ -143,7 +144,7 @@ class Esfera : Objeto
 
 class Cubo : Objeto
 {
-  public:
+public:
 	GLfloat lado;
 	Cubo(GLfloat lado,GLfloat r,GLfloat g,GLfloat b);
     ~Cubo();
@@ -152,7 +153,7 @@ class Cubo : Objeto
 
 class Tetera : Objeto
 {
-  public:
+public:
 	GLfloat tam;
 	Tetera(GLfloat tam,GLfloat r,GLfloat g,GLfloat b);
     ~Tetera();
@@ -161,7 +162,7 @@ class Tetera : Objeto
 
 class Modelo : Objeto
 {
-  public:
+public:
 	string nombreArchivo;
 	GLMmodel *modelo;
 	bool usaTexturas;
@@ -205,78 +206,81 @@ public:
 
 class Luz : Objeto
 {
-   public:
-	 char tipo;
-	 GLfloat posicion[4];
-	 GLfloat color[4];
-	 GLfloat direccion[3];
-	 GLfloat angulo;
-	 bool activa;
-	 GLenum glLight;
-	 
-	 Luz(char tipo);
-	 ~Luz();
-	 void forma();
+public:
+    char tipo;
+    GLfloat posicion[4];
+    GLfloat color[4];
+    GLfloat direccion[3];
+    GLfloat angulo;
+    bool activa;
+    GLenum glLight;
+    
+    Luz(char tipo);
+    ~Luz();
+    void forma();
 };
 
 
 class Escena
 {
-    public:
-        map <string, Objeto *> objetos;
-		map <string, GLuint> texturas;
-		unsigned long currentFrame;
-		bool muestraLuces;
-		bool muestraNiebla;
-		GLfloat densidadNiebla;
-        GLfloat inicioNiebla;
-		GLfloat finNiebla;
-        GLfloat colorNiebla[4];
-		
-		Escena();
-		~Escena();
-		void agregaObjeto(string nombre,Objeto *nuevoObjeto);		
-		void actualizaEscena();		
-		void dibujaEscena();
-		void cuentaframe();
-		void defineLuz(string nombre,char tipo,GLfloat r,GLfloat g,GLfloat b);
-		void posicionLuz(string nombre,GLfloat x,GLfloat y,GLfloat z);
-	    void direccionLuz(string nombre,GLfloat x,GLfloat y,GLfloat z);
-		void anguloLuz(string nombre,GLfloat angulo);
-		void toggleLuz(string nombre);
-		void ilumina();
-		Luz *luz(int numero);
-		void cargaTextura(string nombre,int type,int wrap,int filter);
-		// Version corta, material con textura y alpha blend
-		void modificaMaterial(string nombreModelo,string nombreMaterial,
-				              string nombreTextura,GLuint wrap,GLfloat alpha);
-		// Version extendida, material con textura y alpha blend + desplazamiento y escalamiento de textura
-		void modificaMaterial(string nombreModelo,string nombreMaterial,string 
-						      nombreTextura,GLuint wrap,GLfloat alpha,
-							  GLfloat escalaTex,GLfloat velTexS,GLfloat velTexT);
-        void defineNiebla(GLfloat inicio,GLfloat fin,GLfloat densidad,GLfloat r,GLfloat g,GLfloat b);
-		void activaNiebla(bool activar);
-
-     private:
-	    GLbyte *gltLoadTGA(const char *szFileName, GLint *iWidth, GLint *iHeight, GLint *iComponents, GLenum *eFormat);		
+public:
+    map <string, Objeto *> objetos;
+    map <string, GLuint> texturas;
+    unsigned long currentFrame;
+    bool muestraLuces;
+    bool muestraNiebla;
+    GLfloat densidadNiebla;
+    GLfloat inicioNiebla;
+    GLfloat finNiebla;
+    GLfloat colorNiebla[4];
+    
+    Escena();
+    ~Escena();
+    void agregaObjeto(string nombre,Objeto *nuevoObjeto);
+    void actualizaEscena();
+    void dibujaEscena();
+    bool detectaColision(Objeto* obj1, Objeto* obj2);
+    bool impideColision(Objeto* ob1, float plusX, float plusY, float plusZ, Objeto* ob2);
+    bool impideColision2(Objeto* ob1, float plusX, float plusY, float plusZ);
+    void cuentaframe();
+    void defineLuz(string nombre,char tipo,GLfloat r,GLfloat g,GLfloat b);
+    void posicionLuz(string nombre,GLfloat x,GLfloat y,GLfloat z);
+    void direccionLuz(string nombre,GLfloat x,GLfloat y,GLfloat z);
+    void anguloLuz(string nombre,GLfloat angulo);
+    void toggleLuz(string nombre);
+    void ilumina();
+    Luz *luz(int numero);
+    void cargaTextura(string nombre,int type,int wrap,int filter);
+    // Version corta, material con textura y alpha blend
+    void modificaMaterial(string nombreModelo,string nombreMaterial,
+                          string nombreTextura,GLuint wrap,GLfloat alpha);
+    // Version extendida, material con textura y alpha blend + desplazamiento y escalamiento de textura
+    void modificaMaterial(string nombreModelo,string nombreMaterial,string
+                          nombreTextura,GLuint wrap,GLfloat alpha,
+                          GLfloat escalaTex,GLfloat velTexS,GLfloat velTexT);
+    void defineNiebla(GLfloat inicio,GLfloat fin,GLfloat densidad,GLfloat r,GLfloat g,GLfloat b);
+    void activaNiebla(bool activar);
+    
+private:
+    GLbyte *gltLoadTGA(const char *szFileName, GLint *iWidth, GLint *iHeight, GLint *iComponents, GLenum *eFormat);
 };
 
 class Camara
 {
-   public:
-        GLfloat xview;
-        GLfloat yview;
-        GLfloat zview;
-        GLfloat xrot;
-        GLfloat yrot;
-        GLfloat zrot;
-        GLfloat far;
-        GLfloat near;
-        GLfloat fovy;
-        Camara(GLfloat xview,GLfloat yview,GLfloat zview,
-               GLfloat xrot,GLfloat yrot,GLfloat zrot,
-               GLfloat far,GLfloat near,GLfloat fovy);
-
+public:
+    GLfloat xview;
+    GLfloat yview;
+    GLfloat zview;
+    GLfloat xrot;
+    GLfloat yrot;
+    GLfloat zrot;
+    GLfloat far;
+    GLfloat near;
+    GLfloat fovy;
+    Camara(GLfloat xview,GLfloat yview,GLfloat zview,
+           GLfloat xrot,GLfloat yrot,GLfloat zrot,
+           GLfloat far,GLfloat near,GLfloat fovy);
+    
 };
 
 
