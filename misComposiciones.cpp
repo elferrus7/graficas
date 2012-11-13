@@ -6,25 +6,16 @@
 
 void defineLuces()
 {
-    //escena->defineLuz("light0",'A', 0.084, 0.084, 0.084);
-	escena->defineLuz("light0",'A', 0.2, 0.2, 0.2);
-	escena->posicionLuz("light0", 0.25, 1.0, -2.0);
-
-	//escena->defineLuz("light1",'D', 0.916, 0.916, 0.916);
-	escena->defineLuz("light1",'D', 0.08, 0.08, 0.08);
-	escena->posicionLuz("light1", 0.5, 1.0, -2.0);
-
-	escena->defineLuz("light2",'E', 0.0, 0.1, 0.0);
-	escena->posicionLuz("light2", 0.75, 1, -2.0);
-
-    /*escena->defineLuz("light1",'E', 0.0, 1.0, 0.0);
-	escena->posicionLuz("light1", 5.0, 0.0, 5.0);
+    escena->defineLuz("light0",'D', 1.0, 1.0, 1.0);
+	escena->posicionLuz("light0", 0.0, 3.0, 1.0);
 	
-	escena->defineLuz("light2",'D', 0.916, 0.916, 0.916);
-	escena->posicionLuz("light2", 0.25, 1, -2.0);*/
-	//escena->direccionLuz("light2", 0.0, 1.0, 0.0);
-	//escena->anguloLuz("light2", 30.0);
-	escena->muestraLuces = false;
+    escena->defineLuz("light1",'E', 1.0, 1.0, 1.0);
+	escena->posicionLuz("light1", 1.0, -2.0, 1.0);
+	
+	escena->defineLuz("light2",'S', 1.0, 1.0, 1.0);
+	escena->posicionLuz("light2", 0.0, 8.0, 0.0);
+	escena->direccionLuz("light2", 0.0, -1.0, 0.0);
+	escena->anguloLuz("light2", 30.0);
 }
 
 void demuestraModelo()
@@ -78,6 +69,68 @@ void demuestraMateriales()
 	
 }
 
+void particulasAlpha()
+{
+    char nombre[20];
+    for(int i=0; i<200; i++){
+        sprintf(nombre, "hoja%d",i);
+        escena->agregaObjeto(nombre, (Objeto *) new AlphaQuad(escena,"hoja.tga",GL_REPEAT,1.0,5,5,0,0,1.0,0,0));
+        escena->objetos[nombre]->velRotX = rfloat(-2.0, 2.0);
+        escena->objetos[nombre]->velRotY = rfloat(-2.0, 2.0);
+        escena->objetos[nombre]->velRotZ = rfloat(-2.0, 2.0);
+        escena->objetos[nombre]->loopFrames = 60;
+    }
+    
+}
+
+void muestraAlphaQuad()
+{
+    escena->agregaObjeto("hojas", (Objeto *) new AlphaQuad(escena,"agua.tga",GL_REPEAT,0.8,5,5,0.01,0.01,0.5,0,0));
+    //escena->agregaObjeto("ejemplo", (Objeto *) new Modelo("al"));
+}
+
+void pruebaKeyFrames()
+{
+    escena->agregaObjeto("cubo", (Objeto *) new Cubo(1.0,0.0,0.0,1.0));
+    escena->objetos["cubo"]->agregaKeyFrame(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0);
+    escena->objetos["cubo"]->agregaKeyFrame(30.0, 7.0, 0.0, 0.0, 0.0, 0.0, 40.0, 1.0, 1.0, 1.0);
+    escena->objetos["cubo"]->agregaKeyFrame(100.0, -10.0, -10.0, 0.0, 0.0, 180.0, 0.0, 1.0, 1.0, 1.0);
+    escena->objetos["cubo"]->agregaKeyFrame(200.0, 0.0, 0.0, 0.0, 0.0, 0.0, 360.0, 1.0, 1.0, 1.0);
+}
+
+void cargaPoses(){
+    char nombre[10];
+    GLfloat x = -10;
+    for (int i=0; i<= 5; i++) {
+        sprintf(nombre, "pose%d",i);
+        escena->agregaObjeto(nombre, (Objeto *) new Modelo(nombre));
+        escena->objetos[nombre]->posX = x;
+        x += 2.0;
+    }
+}
+
+void pruebaPoses(){
+    escena->agregaObjeto("poses", (Objeto *) new Poses("pose%d",5,1));
+    escena->objetos["poses"]->agregaKeyFrame(0,   0.0,0.0,0.0, 0.0,0.0,0.0, 1.0,1.0,1.0);
+    escena->objetos["poses"]->agregaKeyFrame(50,  10.0,0.0,0.0, 0.0,90.0,0.0, 1.0,1.0,1.0);
+    escena->objetos["poses"]->agregaKeyFrame(200, -10.0,0.0,0.0, 0.0,360.0,0.0, 1.0,1.0,1.0);
+    escena->objetos["poses"]->agregaKeyFrame(300, 0.0,0.0,0.0, 0.0,0.0,0.0, 1.0,1.0,1.0);
+}
+
+void pruebaPicking(){
+    char nom[10];
+    for(int i=0; i<20; i++){
+        sprintf(nom, "cubo%d",i);
+        escena->agregaObjeto(nom, (Objeto *) new Cubo(1.0, rcolor(), rcolor(), rcolor()));
+        escena->objetos[nom]->posX = rfloat(-10.0, 10.0);
+        escena->objetos[nom]->posY = rfloat(-10.0, 10.0);
+        escena->objetos[nom]->posZ = rfloat(-10.0, 10.0);
+    }
+}
+
+/* ---------------------------------------------------------------- */
+/* ---------- DefiniciÃ³n de mÃ©todos para cargar la casa ----------- */
+/* ---------------------------------------------------------------- */
 
 void pared(string nombre, GLfloat largo, GLfloat posX, GLfloat posZ, bool rot){
     escena->agregaObjeto(nombre, (Objeto *) new Cubo(1.0, 0.3, 0.3, 0.3));
@@ -93,9 +146,6 @@ void pared(string nombre, GLfloat largo, GLfloat posX, GLfloat posZ, bool rot){
     escena->objetos[nombre]->posZ = posZ - escena->objetos[nombre]->escalaZ / 2;
 }
 
-/* ---------------------------------------------------------------- */
-/* ---------- Definici—n de mŽtodos para cargar la casa ----------- */
-/* ---------------------------------------------------------------- */
 void paredesCasa(){
     
     pared("E1", 18.0, 0.0, 0.0, false);
@@ -152,10 +202,8 @@ void creaCasa(){
 	jeff();
 }
 
-
 void creaEscena()
 {
-  //demuestraModelo();
 	creaCasa();
     
     escena->agregaObjeto("cubo1", (Objeto*) new Cubo(1.0, 0.0, 0.0, 1.0));

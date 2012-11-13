@@ -10,6 +10,3 @@ void creaEscena();
 //Ejemplos particulares
 void demuestraModelo();
 void demuestraMateriales();
-
-// Método para cargar la estructura de la casa
-void creaCasa();

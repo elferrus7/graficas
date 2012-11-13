@@ -1,14 +1,10 @@
 #pragma once
 
 #include "Escena.h"
- 
-
 
 //Clases de objetos particulares
 class Cilindro;
 class Avion;
-
-class Paralelepipedo;
 
 class Avion : Objeto
 {
@@ -32,16 +28,4 @@ class Cilindro : Objeto
 	void cuerpo();
 };
 
-/* ---------------------------------------------------------------- */
-/* ------------ Definición de la clase Paralelepipedo ------------- */
-/* ---------------------------------------------------------------- */
-
-class Paralelepipedo : Objeto
-{
-	public:
-		GLfloat largo, alto, ancho;
-		Paralelepipedo(GLfloat largo, GLfloat alto, GLfloat ancho);
-		~Paralelepipedo();
-		void forma();
-};
 

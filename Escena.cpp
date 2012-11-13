@@ -46,37 +46,74 @@ Objeto::Objeto()
 // Destructor (vacio)
 Objeto::~Objeto()
 {
-    delete this;
+  delete this;
 }
 
 // Actualiza las transformaciones del objeto
 void Objeto::actualiza()
 {
-	if(loopFrames)
-		if((escenaActual->currentFrame % loopFrames)==0)
-            // Invierte el sentido de las transformaciones cada loopFrames
-		{
-			velX= -1.0*velX;
-			velY= -1.0*velY;
-			velZ= -1.0*velZ;
-			velRotX= -1.0*velRotX;
-			velRotY= -1.0*velRotY;
-			velRotZ= -1.0*velRotZ;
-			velEscalaX = -1.0*velEscalaX;
-			velEscalaY = -1.0*velEscalaY;
-			velEscalaZ = -1.0*velEscalaZ;
-		}
-	posX+=velX;
-	posY+=velY;
-	posZ+=velZ;
-	rotX+=velRotX;
-	rotY+=velRotY;
-	rotZ+=velRotZ;
-	escalaX+=velEscalaX;
-	escalaY+=velEscalaY;
-	escalaZ+=velEscalaZ;
-	map<string, Objeto *>::const_iterator iter;
-	for (iter=descendientes.begin(); iter != descendientes.end(); ++iter)
+    if (keyFrames.size() == 0)
+    // No se han definido key frames
+    {
+        if(loopFrames && ((escenaActual->currentFrame % loopFrames)==0))
+        // Invierte el sentido de las transformaciones cada loopFrames
+        {
+            velX= -1.0*velX;
+            velY= -1.0*velY;
+            velZ= -1.0*velZ;
+            velRotX= -1.0*velRotX;
+            velRotY= -1.0*velRotY;
+            velRotZ= -1.0*velRotZ;
+            velEscalaX = -1.0*velEscalaX;
+            velEscalaY = -1.0*velEscalaY;
+            velEscalaZ = -1.0*velEscalaZ;
+        }
+        posX+=velX;
+        posY+=velY;
+        posZ+=velZ;
+        rotX+=velRotX;
+        rotY+=velRotY;
+        rotZ+=velRotZ;
+        escalaX+=velEscalaX;
+        escalaY+=velEscalaY;
+        escalaZ+=velEscalaZ;
+    }
+    else
+    // Actualiza transformaciones con keyframes
+    {
+        map<unsigned long, KeyFrame*>::const_iterator iter;
+        iter=keyFrames.end();
+        iter--;
+        unsigned long lastFrame = iter->first;
+        unsigned long currentFrame=escenaActual->currentFrame % lastFrame;
+        iter=keyFrames.begin();
+        unsigned long anterior,siguiente;
+        // Ubica los keyframes anterior y siguiente al currentFrame
+        for (iter=keyFrames.begin(); currentFrame >= iter->first &&
+             iter != keyFrames.end(); ++iter)
+        {
+            anterior=iter->first;
+        }
+        siguiente=iter->first;
+        // Copia los keyFrames anterior y siguiente a las variables ant y sig
+        KeyFrame *ant=keyFrames[anterior];
+        KeyFrame *sig=keyFrames[siguiente];
+        // Calcula las transformaciones con base en:
+        //T(i) = T(fi)+(i-fi)*(T(fj)-T(fi))/(fj-fi)
+        GLfloat factor=(GLfloat)(currentFrame-anterior)/(siguiente-anterior);
+        //printf("\nFactor:%f",factor);
+        posX = ant->posX+factor*(sig->posX-ant->posX);
+        posY = ant->posY+factor*(sig->posY-ant->posY);
+        posZ = ant->posZ+factor*(sig->posZ-ant->posZ);
+        rotX = ant->rotX+factor*(sig->rotX-ant->rotX);
+        rotY = ant->rotY+factor*(sig->rotY-ant->rotY);
+        rotZ = ant->rotZ+factor*(sig->rotZ-ant->rotZ);
+        escalaX = ant->escalaX+factor*(sig->escalaX-ant->escalaX);
+        escalaY = ant->escalaY+factor*(sig->escalaY-ant->escalaY);
+        escalaZ = ant->escalaZ+factor*(sig->escalaZ-ant->escalaZ);
+    }
+    map<string, Objeto *>::const_iterator iter;
+    for (iter=descendientes.begin(); iter != descendientes.end(); ++iter)
     {
         Objeto *o=(Objeto *)iter->second;
         o->actualiza();
@@ -86,7 +123,7 @@ void Objeto::actualiza()
 
 // Aplica las transformaciones y dibuja el objeto transformado
 void Objeto::dibuja()
-{
+{    
     glEnable(GL_COLOR_MATERIAL);
 	glPushMatrix();
 	glTranslatef(posX,posY,posZ);
@@ -94,32 +131,32 @@ void Objeto::dibuja()
 	glRotatef(rotX,1.0+pivotX,0.0+pivotY,0.0+pivotZ);
     glRotatef(rotY,0.0+pivotX,1.0+pivotY,0.0+pivotZ);
     glRotatef(rotZ,0.0+pivotX,0.0+pivotY,1.0+pivotZ);
-	if (usaMaterial)
+	if (usaMaterial) 
 	{
 		aplicaMaterial();
 		forma();
 		anulaMaterial();
 	}
-	else
+	else 
 	{
 		glColor3f(colorR,colorG,colorB);
         forma();
 		glColor3f(1.0,1.0,1.0);
 	}
-    map<string, Objeto *>::const_iterator iter;
-    for (iter=descendientes.begin(); iter != descendientes.end(); ++iter)
+    map<string, Objeto *>::const_iterator iter;   
+    for (iter=descendientes.begin(); iter != descendientes.end(); ++iter) 
     {
-        Objeto *o=(Objeto *)iter->second;
-        o->dibuja();
+	   Objeto *o=(Objeto *)iter->second;
+	   o->dibuja();	  	   
     }
     glPopMatrix();
 }
 
 void Objeto::escalaUniforme(GLfloat escala)
 {
-    this->escalaX=escala;
-    this->escalaY=escala;
-    this->escalaZ=escala;
+   this->escalaX=escala;
+   this->escalaY=escala;
+   this->escalaZ=escala;
 }
 
 void Objeto::copiaMaterial(string nombreModelo,string nombreMaterial,GLuint	mappingMode)
@@ -127,7 +164,7 @@ void Objeto::copiaMaterial(string nombreModelo,string nombreMaterial,GLuint	mapp
 	Modelo *modelo=(Modelo *)this->escenaActual->objetos[nombreModelo];
 	GLMmodel *m=modelo->modelo;
 	int i;
-    
+
 	for(i=0; i<m->nummaterials; i++)
 		if(strcmp(nombreMaterial.c_str(),m->materials[i].name)==0)
 			break;
@@ -141,117 +178,117 @@ void Objeto::copiaMaterial(string nombreModelo,string nombreMaterial,GLuint	mapp
 		this->material.stexspeed=m->materials[i].stexspeed;
 		this->material.ttexspeed=m->materials[i].ttexspeed;
 		this->mappingMode=mappingMode;
-        printf("copiaMaterial:El material %s del modelo %s fue copiado \n",nombreMaterial.c_str(),nombreModelo.c_str());
+        printf("copiaMaterial:El material %s del modelo %s fue copiado \n",nombreMaterial.c_str(),nombreModelo.c_str());	
 	}
 	else
 		printf("copiaMaterial:El material %s no fue encontrado en el modelo %s\n",nombreMaterial.c_str(),nombreModelo.c_str());
-    
+
 }
 
 void Objeto::defineMaterial(GLfloat aR,GLfloat aG,GLfloat aB,
-                            GLfloat dR,GLfloat dG,GLfloat dB,
-                            GLfloat sR,GLfloat sG,GLfloat sB,
-                            GLfloat eR,GLfloat eG,GLfloat eB,
-                            string  nombreTextura,
-                            GLuint  wrapmode,
-                            GLfloat alpha,
-                            GLfloat stexdis,
-                            GLfloat ttexdis,
-                            GLfloat stexspeed,
-                            GLfloat ttexspeed,
-                            GLfloat scale,
-                            GLuint	mappingMode,
-                            bool lighting)
+					GLfloat dR,GLfloat dG,GLfloat dB,
+					GLfloat sR,GLfloat sG,GLfloat sB,
+					GLfloat eR,GLfloat eG,GLfloat eB,
+					string  nombreTextura,
+					GLuint  wrapmode,              
+					GLfloat alpha,
+					GLfloat stexdis,			   
+					GLfloat ttexdis,			    
+					GLfloat stexspeed,			
+					GLfloat ttexspeed,			
+					GLfloat scale,
+					GLuint	mappingMode,
+					bool lighting)
 {
-    usaMaterial=true;
-    if(nombreTextura.length()>0)
-    {
-        if(escenaActual->texturas.count(nombreTextura)==0)
-            // La textura no ha sido cargada, se carga con parametros por default
-            escenaActual->cargaTextura(nombreTextura,GL_RGB,wrapmode,TEX_FILTER);
-        
-    }
-    copia(material.ambient,aR,aG,aB);
-    copia(material.diffuse,dR,dG,dB);
-    copia(material.specular,sR,sG,sB);
-    copia(material.emmissive,eR,eG,eB);
-    material.textureid=this->escenaActual->texturas[nombreTextura];
-    material.wrapmode = wrapmode;
-    material.alpha = alpha;
-    material.diffuse[3]=alpha;
-    material.stexdis=stexdis;
-    material.ttexspeed=ttexdis;
-    material.ttexdis=stexspeed;
-    material.ttexspeed=ttexspeed;
-    material.scale=scale;
-    material.lighting=lighting;
-    this->mappingMode=mappingMode;
-    
+        usaMaterial=true;
+		if(nombreTextura.length()>0)
+		{
+			if(escenaActual->texturas.count(nombreTextura)==0)
+			  // La textura no ha sido cargada, se carga con parametros por default
+			   escenaActual->cargaTextura(nombreTextura,GL_RGB,wrapmode,TEX_FILTER);
+
+		}
+		copia(material.ambient,aR,aG,aB);
+		copia(material.diffuse,dR,dG,dB);
+		copia(material.specular,sR,sG,sB);
+		copia(material.emmissive,eR,eG,eB);
+		material.textureid=this->escenaActual->texturas[nombreTextura];
+		material.wrapmode = wrapmode;
+		material.alpha = alpha;
+		material.diffuse[3]=alpha;
+		material.stexdis=stexdis;
+		material.ttexspeed=ttexdis;
+		material.ttexdis=stexspeed;
+		material.ttexspeed=ttexspeed;
+		material.scale=scale;
+		material.lighting=lighting;
+		this->mappingMode=mappingMode;
+		
 }
 
 void Objeto::aplicaMaterial()
 {
-    // Guarda Enable/Disable para reestablecerlos en anulaMaterial()
-    glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
-    glEnable(GL_COLOR_MATERIAL);
-    
-    if (!material.lighting) {
-        glDisable(GL_LIGHTING);
-    }
-    
-    if(material.alpha < 1.0) //Habilita blending
-    {
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-        material.diffuse[3]=material.alpha;
-    }
-    if(material.textureid > 0) //Habilita texturizado
-    {
-        glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D, material.textureid);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, material.wrapmode);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, material.wrapmode);
-        // Cambia las componentes de difusse para aplicar colores de textura
-        material.diffuse[0]=1.0;
-        material.diffuse[1]=1.0;
-        material.diffuse[2]=1.0;
-        if((material.scale != 1.0) || (material.stexspeed != 0.0) || (material.ttexspeed != 0.0))
-        {
-            // Aplica transformaciones de textura
-            glMatrixMode(GL_TEXTURE);
-            glPushMatrix();
-            glLoadIdentity();
-            material.stexdis+=material.stexspeed;
-            material.ttexdis+=material.ttexspeed;
-            glTranslatef(material.stexdis,material.ttexdis,0.0);
-            glScalef(1.0/material.scale,1.0/material.scale,0.0);
-            glPopMatrix();
-            glMatrixMode(GL_MODELVIEW);
-        }
-        // Habilita el modo de generacion de coordenadas de textura en S y T
-        glEnable(GL_TEXTURE_GEN_S);
-        glEnable(GL_TEXTURE_GEN_T);
-        glTexGenf(GL_S,GL_TEXTURE_GEN_MODE,mappingMode);
-        glTexGenf(GL_T,GL_TEXTURE_GEN_MODE,mappingMode);
-    }
-    if (definido(material.ambient))
-    {
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material.ambient);
-    }
-    if (definido(material.diffuse))
-    {
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material.diffuse);
-    }
-    if (definido(material.specular))
-    {
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, material.specular);
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, material.shininess);
-    }
-    if (definido(material.emmissive))
-    {
-        glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, material.emmissive);
-    }
-    glColor4fv(material.diffuse);
+        // Guarda Enable/Disable para reestablecerlos en anulaMaterial()
+        glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
+		glEnable(GL_COLOR_MATERIAL);
+		
+		if (!material.lighting) {
+			glDisable(GL_LIGHTING);
+		}
+		
+		if(material.alpha < 1.0) //Habilita blending
+		{
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+            material.diffuse[3]=material.alpha;
+		}
+		if(material.textureid > 0) //Habilita texturizado
+		{          
+	      glEnable(GL_TEXTURE_2D);
+		  glBindTexture(GL_TEXTURE_2D, material.textureid);
+		  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, material.wrapmode);
+	      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, material.wrapmode);		  		  
+		  // Cambia las componentes de difusse para aplicar colores de textura
+		  material.diffuse[0]=1.0;
+          material.diffuse[1]=1.0;
+          material.diffuse[2]=1.0;
+		  if((material.scale != 1.0) || (material.stexspeed != 0.0) || (material.ttexspeed != 0.0))
+		  {
+			  // Aplica transformaciones de textura
+			  glMatrixMode(GL_TEXTURE);
+	          glPushMatrix();
+	          glLoadIdentity();
+			  material.stexdis+=material.stexspeed;
+              material.ttexdis+=material.ttexspeed;
+			  glTranslatef(material.stexdis,material.ttexdis,0.0);
+			  glScalef(1.0/material.scale,1.0/material.scale,0.0);
+			  glPopMatrix();
+		      glMatrixMode(GL_MODELVIEW);
+		  }
+		  // Habilita el modo de generacion de coordenadas de textura en S y T
+		  glEnable(GL_TEXTURE_GEN_S);
+	      glEnable(GL_TEXTURE_GEN_T);
+		  glTexGenf(GL_S,GL_TEXTURE_GEN_MODE,mappingMode);
+		  glTexGenf(GL_T,GL_TEXTURE_GEN_MODE,mappingMode);
+		}
+		if (definido(material.ambient)) 
+		{
+			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material.ambient);
+		}
+		if (definido(material.diffuse)) 
+		{
+		    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material.diffuse);
+		}
+		if (definido(material.specular)) 
+		{
+		    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, material.specular);
+		    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, material.shininess);
+		}
+		if (definido(material.emmissive)) 
+		{
+		    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, material.emmissive);
+		}
+        glColor4fv(material.diffuse);
 }
 
 
@@ -263,17 +300,25 @@ void Objeto::anulaMaterial()
 	glDisable(GL_TEXTURE_GEN_S);
 	glDisable(GL_TEXTURE_GEN_T);
 	glDisable(GL_TEXTURE_2D);
-	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_TEXTURE_2D);	
 	glEnable(GL_LIGHTING);
 }
 
 
 void Objeto::agregaDescendiente(string nombre,Objeto *nuevoObjeto)
 {
-	descendientes[nombre]=nuevoObjeto;
+	descendientes[nombre]=nuevoObjeto;	
 	descendientes[nombre]->escenaActual=this->escenaActual;
 }
 
+void Objeto::agregaKeyFrame(unsigned long frame,
+                            GLfloat posX,GLfloat posY,GLfloat posZ,
+                            GLfloat rotX,GLfloat rotY,GLfloat rotZ,
+                            GLfloat escalaX,GLfloat escalaY,GLfloat escalaZ)
+{
+    keyFrames[frame]=new KeyFrame(posX,posY,posZ,rotX,rotY,rotZ,
+                                  escalaX,escalaY,escalaZ);
+}
 
 
 //Metodos del cubo
@@ -290,7 +335,7 @@ Cubo::Cubo(GLfloat lado,GLfloat r,GLfloat g,GLfloat b):Objeto()
 // Forma de cubo
 void Cubo::forma()
 {
-    glutSolidCube(lado);
+   glutSolidCube(lado);
 }
 
 
@@ -308,7 +353,7 @@ Tetera::Tetera(GLfloat tam,GLfloat r,GLfloat g,GLfloat b):Objeto()
 // Forma de cubo
 void Tetera::forma()
 {
-    glutSolidTeapot(tam);
+   glutSolidTeapot(tam);
 }
 
 
@@ -329,7 +374,7 @@ Esfera::Esfera(GLfloat radio,GLfloat meridianos,GLfloat paralelos,GLfloat r,GLfl
 // Forma de esfera
 void Esfera::forma()
 {
-    glutSolidSphere(radio,meridianos,paralelos);
+   glutSolidSphere(radio,meridianos,paralelos);
 }
 
 
@@ -338,38 +383,44 @@ void Esfera::forma()
 Modelo::Modelo(string nombreArchivo):Objeto()
 {
 	char ruta[MAX_NOMBRE];
-    
+
 	this->nombreArchivo=nombreArchivo;
-	sprintf(ruta,"modelos/%s.obj",nombreArchivo.c_str());
+	// Para MAC OS X:
+    sprintf(ruta,"%s.obj",nombreArchivo.c_str());
+    // Para Windows:
+    //sprintf(ruta,"modelos/%s.obj",nombreArchivo.c_str());
 	modelo=glmReadOBJ(ruta);
 	usaTexturas=false;
 	if(modelo)
 	{
-        glmUnitize(modelo);
-        glmFacetNormals(modelo);
-        glmVertexNormals(modelo,90.0);
-        glmLinearTexture(modelo);
+       glmUnitize(modelo);	   
+	   glmFacetNormals(modelo);
+	   glmVertexNormals(modelo,90.0);
+       glmLinearTexture(modelo);
 	}
 }
 
 Modelo::Modelo(string nombreArchivo,int modoTextura):Objeto()
 {
 	char ruta[MAX_NOMBRE];
-    
+
 	this->nombreArchivo=nombreArchivo;
-	sprintf(ruta,"modelos/%s.obj",nombreArchivo.c_str());
+	// Para MAC OS X:
+    sprintf(ruta,"%s.obj",nombreArchivo.c_str());
+    // Para Windows:
+    //sprintf(ruta,"modelos/%s.obj",nombreArchivo.c_str());
 	modelo=glmReadOBJ(ruta);
 	usaTexturas=true;
 	desplazaTexturas=false;
 	if(modelo)
 	{
-        glmUnitize(modelo);
-        glmFacetNormals(modelo);
-        glmVertexNormals(modelo,90.0);
-        if(modoTextura==TEX_LINEAR)
-            glmLinearTexture(modelo);
-        else
-            glmSpheremapTexture(modelo);
+       glmUnitize(modelo);	   
+	   glmFacetNormals(modelo);
+	   glmVertexNormals(modelo,90.0);
+	   if(modoTextura==TEX_LINEAR)
+	     glmLinearTexture(modelo);
+	   else
+         glmSpheremapTexture(modelo);
 	}
 	
 }
@@ -377,33 +428,33 @@ Modelo::Modelo(string nombreArchivo,int modoTextura):Objeto()
 
 void Modelo::forma()
 {
-    if (desplazaTexturas) {
-        // Si hay texturas desplazadas, debe dibujarse el modelo siempre
-        glmDraw(modelo,GLM_SMOOTH | GLM_TEXTURE | GLM_MATERIAL);
-    }
-    else
-    {
-        // La primera vez que despliega construye displayList
-        if(!displayList)
-            if (usaTexturas)
-                displayList = glmList(modelo,GLM_SMOOTH | GLM_TEXTURE | GLM_MATERIAL);
-            else
-                displayList = glmList(modelo,GLM_SMOOTH | GLM_MATERIAL);
-        // Si displayList esta disponible la utiliza, de lo contrario dibuja a partir de la geometria
-        if(displayList)
-            glCallList(displayList);
-        else
-            if (usaTexturas)
-                glmDraw(modelo,GLM_SMOOTH | GLM_TEXTURE | GLM_MATERIAL);
-            else
-                glmDraw(modelo,GLM_SMOOTH | GLM_MATERIAL);
-    }
+        if (desplazaTexturas) {
+		   // Si hay texturas desplazadas, debe dibujarse el modelo siempre
+			glmDraw(modelo,GLM_SMOOTH | GLM_TEXTURE | GLM_MATERIAL);
+		}
+		else 
+		{
+			// La primera vez que despliega construye displayList
+			if(!displayList)
+			  if (usaTexturas)  
+				  displayList = glmList(modelo,GLM_SMOOTH | GLM_TEXTURE | GLM_MATERIAL);
+				else 
+				  displayList = glmList(modelo,GLM_SMOOTH | GLM_MATERIAL);
+			// Si displayList esta disponible la utiliza, de lo contrario dibuja a partir de la geometria
+			if(displayList)
+			   glCallList(displayList);
+			else
+			  if (usaTexturas) 
+				  glmDraw(modelo,GLM_SMOOTH | GLM_TEXTURE | GLM_MATERIAL);
+			  else 
+				  glmDraw(modelo,GLM_SMOOTH | GLM_MATERIAL);
+		}
 }
 
 Modelo::~Modelo()
 {
 	if(modelo)
-        glmDelete(modelo);
+	  glmDelete(modelo);
 }
 
 //Metodos AlphaQuad
@@ -411,9 +462,9 @@ Modelo::~Modelo()
 AlphaQuad::	AlphaQuad(Escena *escenaActual,string nombreTextura,GLuint modoTextura,GLfloat alpha,GLfloat ancho,GLfloat alto,GLfloat texVelS,GLfloat texVelT,GLfloat texEscala,GLfloat texEscalaVel,GLfloat alphaVel):Objeto()
 {
 	this->modoTextura=modoTextura;
-	this->ancho=ancho;
-	this->alto=alto;
-	this->texVelS=texVelS;
+	this->ancho=ancho; 
+	this->alto=alto; 
+	this->texVelS=texVelS; 
 	this->texVelT=texVelT;
 	this->texPosS=0.0;
 	this->texPosT=0.0;
@@ -432,12 +483,12 @@ AlphaQuad::	AlphaQuad(Escena *escenaActual,string nombreTextura,GLuint modoTextu
 
 void AlphaQuad::forma()
 {
-    
+
     //Habilita texturas
 	glEnable(GL_TEXTURE_2D);
 	// Deshabilita iluminacion
 	glDisable(GL_LIGHTING);
-    
+
 	//Habilita blend con Alpha
     glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
@@ -446,18 +497,18 @@ void AlphaQuad::forma()
 	//Habilita Alpha Test
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GEQUAL,0.7);
-    
+
 	//Centra en el origen
 	GLfloat x = 0.0 - (this->ancho/ 2.0);
 	GLfloat y = 0.0 - (this->alto / 2.0);
-    
+
 	// Seleccion de la textura
 	glBindTexture(GL_TEXTURE_2D, textura);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, this->modoTextura);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, this->modoTextura);
-    
+
 	//Aplicacion del transformaciones de textura
-    
+
 	glMatrixMode(GL_TEXTURE);
 	glPushMatrix();
 	glLoadIdentity();
@@ -465,20 +516,20 @@ void AlphaQuad::forma()
 	glScalef(1.0/this->texEscala,1.0/this->texEscala,1.0);
 	
 	// Trazo del quad y mapeo de textura
-	glBegin(GL_QUADS);
-    glTexCoord2f(1.0f, 0.0f); glVertex3f(x + this->ancho,y,0.0);
-    glTexCoord2f(1.0f, 1.0f); glVertex3f(x + this->ancho, y + this->alto, 0.0);
-    glTexCoord2f(0.0f, 1.0f); glVertex3f(x,y + this->alto,0.0);
-    glTexCoord2f(0.0f, 0.0f); glVertex3f(x,y,0.0);
+	glBegin(GL_QUADS);				
+		glTexCoord2f(1.0f, 0.0f); glVertex3f(x + this->ancho,y,0.0);
+		glTexCoord2f(1.0f, 1.0f); glVertex3f(x + this->ancho, y + this->alto, 0.0); 
+		glTexCoord2f(0.0f, 1.0f); glVertex3f(x,y + this->alto,0.0);
+		glTexCoord2f(0.0f, 0.0f); glVertex3f(x,y,0.0);		
 	glEnd();
 	glPopMatrix();
-    
+
     //Regresa las transformaciones a MODELVIEW
 	glMatrixMode(GL_MODELVIEW);
-    
+
 	//Habilita luz
-	glEnable(GL_LIGHTING);
-    
+	glEnable(GL_LIGHTING);	
+
 	//Deshabilita blend
 	glDisable(GL_BLEND);
 	
@@ -519,11 +570,11 @@ Luz::Luz(char tipo):Objeto()
 
 void Luz::forma()
 {
-    if (this->escenaActual->muestraLuces && this->activa)
-    {
-        glColor3fv(this->color);
-        glutWireSphere(0.3, 10, 10);
-    }
+  if (this->escenaActual->muestraLuces && this->activa)
+  {
+	glColor3fv(this->color);
+	glutWireSphere(0.3, 10, 10);
+  }
 }
 
 
@@ -535,15 +586,16 @@ Escena::Escena()
 {
     currentFrame=0;
     muestraLuces=false;
+    currHitName = 0;
     char nombre[MAX_NOMBRE];
-    for (int i=0; i<MAX_LUCES; i++)
+    for (int i=0; i<MAX_LUCES; i++) 
     {
-        sprintf(nombre,"light%d",i);
-        objetos[nombre]=(Objeto *) new Luz('I');
-        objetos[nombre]->escenaActual=this;
-        Luz *l=(Luz *) objetos[nombre];
-        l->activa=false;
-        l->glLight=GL_LIGHT0+i;
+         sprintf(nombre,"light%d",i);
+         objetos[nombre]=(Objeto *) new Luz('I');	
+         objetos[nombre]->escenaActual=this;  
+         Luz *l=(Luz *) objetos[nombre];
+         l->activa=false;
+         l->glLight=GL_LIGHT0+i;	  
     }
 }
 
@@ -551,54 +603,57 @@ Escena::Escena()
 // Destructor
 Escena::~Escena()
 {
-    map<string, Objeto *>::const_iterator iter;
-    for (iter=objetos.begin(); iter != objetos.end(); ++iter)
-    {
-        Objeto *o=(Objeto *)iter->second;
-        delete o;
-    }
+   map<string, Objeto *>::const_iterator iter;   
+   for (iter=objetos.begin(); iter != objetos.end(); ++iter) 
+   {
+	   Objeto *o=(Objeto *)iter->second;
+	   delete o;	  	   
+   }
 }
 
 void Escena::actualizaEscena()
 {
-    map<string, Objeto *>::const_iterator iter;
-    for (iter=objetos.begin(); iter != objetos.end(); ++iter)
-    {
-        Objeto *o=(Objeto *)iter->second;
-        o->actualiza();
-    }
-    for (int i=0; i<MAX_LUCES; i++)
-    {
-        Luz *l=luz(i);
-        Objeto *o=(Objeto *) l;
-        l->posicion[0]=o->posX;
-        l->posicion[1]=o->posY;
-        l->posicion[2]=o->posZ;
-        l->posicion[3]=0.0;
-        l->color[0]=o->colorR;
-        l->color[1]=o->colorG;
-        l->color[2]=o->colorB;
-        l->color[3]=1.0;
-    }
+   map<string, Objeto *>::const_iterator iter;   
+   for (iter=objetos.begin(); iter != objetos.end(); ++iter) 
+   {
+	   Objeto *o=(Objeto *)iter->second;
+	   o->actualiza();
+   } 
+   for (int i=0; i<MAX_LUCES; i++) 
+   {
+	 Luz *l=luz(i);
+	 Objeto *o=(Objeto *) l;
+	 l->posicion[0]=o->posX;
+	 l->posicion[1]=o->posY;
+	 l->posicion[2]=o->posZ;
+	 l->posicion[3]=0.0;
+	 l->color[0]=o->colorR;
+	 l->color[1]=o->colorG;
+	 l->color[2]=o->colorB;
+	 l->color[3]=1.0;
+   }
 }
 
 void Escena::agregaObjeto(string nombre,Objeto *nuevoObjeto)
 {
-	objetos[nombre]=nuevoObjeto;
+	objetos[nombre]=nuevoObjeto;	
 	objetos[nombre]->escenaActual=this;
+    currHitName++;
+    objetos[nombre]->hitName = currHitName;
 }
 
 
 void Escena::dibujaEscena()
 {
+    glPushName(0);
     map<string, Objeto *>::const_iterator iter;
     for (iter=objetos.begin(); iter != objetos.end(); ++iter)
     {
         Objeto *o=(Objeto *)iter->second;
-        o->dibuja();
-    }
+        glLoadName(o->hitName);
+        o->dibuja();	  	   
+    } 
 }
-
 
 bool Escena::detectaColision(Objeto* ob1, Objeto* ob2){
     float distanceX = fabs(ob1->posX - ob2->posX);
@@ -656,15 +711,15 @@ bool Escena::impideColision2(Objeto* ob1, float plusX, float plusY, float plusZ)
 }
 
 void Escena::cuentaframe()
-{
-    currentFrame++;
+{	  
+	  currentFrame++; 
 }
 
 Luz *Escena::luz(int numero)
 {
-    char nombre[MAX_NOMBRE];
-    sprintf(nombre,"light%d",numero);
-    return (Luz *) objetos[nombre];
+  char nombre[MAX_NOMBRE];
+  sprintf(nombre,"light%d",numero);
+  return (Luz *) objetos[nombre];
 }
 
 
@@ -714,65 +769,65 @@ void Escena::toggleLuz(string nombre)
 {
 	Luz *l=(Luz *) objetos[nombre];
 	if(l->tipo=='I')
-        // Si la luz es Indefinida, siempre se desactiva
-        l->activa=false;
+	  // Si la luz es Indefinida, siempre se desactiva
+	  l->activa=false;
 	else
-        // Si la luz es de otro tipo, se invierte el estado de activa
-        l->activa=!(l->activa);
+	  // Si la luz es de otro tipo, se invierte el estado de activa
+	  l->activa=!(l->activa);
 }
 
 void Escena::ilumina()
-{
-    glLoadIdentity();
-    glEnable(GL_LIGHTING);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_NORMALIZE);
-    glEnable(GL_COLOR_MATERIAL);
-    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER,GL_TRUE);
-    glLightModeli(GL_LIGHT_MODEL_TWO_SIDE,GL_TRUE);
-    //glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL,GL_SEPARATE_SPECULAR_COLOR);
-    glShadeModel(GL_SMOOTH);
-    for (int i=0; i<MAX_LUCES; i++)
-    {
-        Luz *l=luz(i);
-        if (l->activa && l->tipo!='I')
-        {
-            switch (l->tipo) {
-                case 'A': // Luz Ambiente
-                    glLightfv(l->glLight,GL_AMBIENT,l->color);
-                    break;
-                    
-                case 'D': // Luz Difusa
-                    glColorMaterial(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE);
-                    glLightfv(l->glLight,GL_DIFFUSE,l->color);
-                    glLightfv(l->glLight,GL_POSITION,l->posicion);
-                    break;
-                    
-                case 'E': // Luz Especular
-                    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, l->color);
-                    glMaterialf(GL_FRONT_AND_BACK,GL_SHININESS,SPECULAR_SHININESS);
-                    glLightfv(l->glLight,GL_SPECULAR,l->color);
-                    glLightfv(l->glLight,GL_POSITION,l->posicion);
-                    break;
-                    
-                case 'S': // Spot Light
-                    glColorMaterial(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE);
-                    glLightfv(l->glLight,GL_DIFFUSE,l->color);
-                    glLightfv(l->glLight,GL_POSITION,l->posicion);
-                    glLightfv(l->glLight, GL_SPOT_DIRECTION,l->direccion);
-                    glLightf(l->glLight, GL_SPOT_CUTOFF, l->angulo);
-                    break;
-                    
-            }
-            glEnable(l->glLight);
-        }
-        else
-        {
-            // Luz indefinida o inactiva
-            glDisable(l->glLight);
-        }
-        
-    }
+{  
+  glLoadIdentity();
+  glEnable(GL_LIGHTING);
+  glEnable(GL_DEPTH_TEST);
+  glEnable(GL_NORMALIZE);
+  glEnable(GL_COLOR_MATERIAL);
+  glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER,GL_TRUE);
+  glLightModeli(GL_LIGHT_MODEL_TWO_SIDE,GL_TRUE);
+  glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL,GL_SEPARATE_SPECULAR_COLOR);
+  glShadeModel(GL_SMOOTH);
+  for (int i=0; i<MAX_LUCES; i++) 
+  {
+	 Luz *l=luz(i);
+	 if (l->activa && l->tipo!='I') 
+	   {
+		 switch (l->tipo) {
+			 case 'A': // Luz Ambiente
+					   glLightfv(l->glLight,GL_AMBIENT,l->color);
+				       break;
+					   
+			 case 'D': // Luz Difusa
+					   glColorMaterial(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE);
+					   glLightfv(l->glLight,GL_DIFFUSE,l->color);
+					   glLightfv(l->glLight,GL_POSITION,l->posicion);
+				       break;
+					   
+			 case 'E': // Luz Especular
+					   glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, l->color);
+					   glMaterialf(GL_FRONT_AND_BACK,GL_SHININESS,SPECULAR_SHININESS);
+					   glLightfv(l->glLight,GL_SPECULAR,l->color);
+					   glLightfv(l->glLight,GL_POSITION,l->posicion);
+				       break;  
+					    
+			 case 'S': // Spot Light
+				       glColorMaterial(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE);
+					   glLightfv(l->glLight,GL_DIFFUSE,l->color);
+					   glLightfv(l->glLight,GL_POSITION,l->posicion);
+					   glLightfv(l->glLight, GL_SPOT_DIRECTION,l->direccion);
+					   glLightf(l->glLight, GL_SPOT_CUTOFF, l->angulo);				   
+				       break; 
+					   
+		 }
+		 glEnable(l->glLight);
+	   }
+	 else 
+	   {
+	     // Luz indefinida o inactiva
+		 glDisable(l->glLight);
+	   }
+
+  }
 }
 
 
@@ -783,7 +838,7 @@ void Escena::ilumina()
 // This only works on pretty vanilla targas... 8, 24, or 32 bit color
 // only, no palettes, no RLE encoding.
 GLbyte *Escena::gltLoadTGA(const char *szFileName, GLint *iWidth, GLint *iHeight, GLint *iComponents, GLenum *eFormat)
-{
+	{
     FILE *pFile;			// File pointer
     TGAHEADER tgaHeader;		// TGA file header
     unsigned long lImageSize;		// Size in bytes of image
@@ -823,17 +878,17 @@ GLbyte *Escena::gltLoadTGA(const char *szFileName, GLint *iWidth, GLint *iHeight
         return NULL;
     
     // Read in the bits
-    // Check for read error. This should catch RLE or other
+    // Check for read error. This should catch RLE or other 
     // weird formats that I don't want to recognize
     if(fread(pBits, lImageSize, 1, pFile) != 1)
-    {
+		{
         free(pBits);
         return NULL;
-    }
+		}
     
     // Set OpenGL format expected
     switch(sDepth)
-    {
+		{
         case 3:     // Most likely case
             *eFormat = GL_BGR_EXT;
             *iComponents = GL_RGB8;
@@ -846,7 +901,7 @@ GLbyte *Escena::gltLoadTGA(const char *szFileName, GLint *iWidth, GLint *iHeight
             *eFormat = GL_LUMINANCE;
             *iComponents = GL_LUMINANCE8;
             break;
-    };
+		};
 	
     
     // Done with File
@@ -854,7 +909,7 @@ GLbyte *Escena::gltLoadTGA(const char *szFileName, GLint *iWidth, GLint *iHeight
 	
     // Return pointer to image data
     return pBits;
-}
+	}
 
 
 
@@ -862,31 +917,33 @@ void Escena::cargaTextura(string nombre,int type,int wrap,int filter)
 {
 	int width,height,components;
 	GLenum format;
-	GLuint texid=0;
+	GLuint texid=0;    
     char ruta[MAX_NOMBRE];
 	GLbyte *img;
-    
-    
-	sprintf(ruta,"texturas/%s",nombre.c_str());
+
+    // Para MAC OS X:
+	sprintf(ruta,"%s",nombre.c_str());
+    //Para Windows:
+    //sprintf(ruta,"texturas/%s",nombre.c_str());
     img=gltLoadTGA(ruta, &width, &height, &components, &format);
-	if(img==NULL)
+	if(img==NULL) 
 	{
 		texturas[nombre]=0;
-        printf("cargaTextura:Error al cargar la textura %s\n",nombre.c_str());
+        printf("cargaTextura:Error al cargar la textura %s\n",nombre.c_str());		
 	}
 	else
 	{
-        
+
 		glGenTextures(1, &texid);
 		glBindTexture(GL_TEXTURE_2D,texid);
-        
+
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,wrap);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,wrap);
-        
+
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,filter);
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,filter);
-        
-		gluBuild2DMipmaps(GL_TEXTURE_2D,components,width,height,format,GL_UNSIGNED_BYTE,img);
+
+		gluBuild2DMipmaps(GL_TEXTURE_2D,components,width,height,format,GL_UNSIGNED_BYTE,img);	
 		texturas[nombre]=texid;
 		printf("cargaTextura:Textura %s cargada con id %d\n",nombre.c_str(),texid);
 		free(img);
@@ -897,7 +954,7 @@ void Escena::cargaTextura(string nombre,int type,int wrap,int filter)
 
 void Escena::modificaMaterial(string nombreModelo,string nombreMaterial,string nombreTextura,GLuint wrap,GLfloat alpha)
 {
-    modificaMaterial(nombreModelo,nombreMaterial,nombreTextura,wrap,alpha,1.0,0.0,0.0);
+   modificaMaterial(nombreModelo,nombreMaterial,nombreTextura,wrap,alpha,1.0,0.0,0.0);
 }
 
 
@@ -906,8 +963,8 @@ void Escena::modificaMaterial(string nombreModelo,string nombreMaterial,string n
 	Modelo *modelo=(Modelo *)objetos[nombreModelo];
 	modelo->desplazaTexturas=true;
 	GLMmodel *m=modelo->modelo;
-	unsigned i;
-    
+	int i;
+
 	for(i=0; i<m->nummaterials; i++)
 		if(strcmp(nombreMaterial.c_str(),m->materials[i].name)==0)
 			break;
@@ -916,8 +973,8 @@ void Escena::modificaMaterial(string nombreModelo,string nombreMaterial,string n
 		if(nombreTextura.length()>0)
 		{
 			if(texturas.count(nombreTextura)==0)
-                // La textura no ha sido cargada, se carga con parametros por default
-                cargaTextura(nombreTextura,GL_RGB,wrap,TEX_FILTER);
+			  // La textura no ha sido cargada, se carga con parametros por default
+			   cargaTextura(nombreTextura,GL_RGB,wrap,TEX_FILTER);
 			m->materials[i].textureid=texturas[nombreTextura];
 			m->materials[i].wrapmode = wrap;
 		}
@@ -925,11 +982,11 @@ void Escena::modificaMaterial(string nombreModelo,string nombreMaterial,string n
 		m->materials[i].scale=escalaTex;
 		m->materials[i].stexspeed=velTexS;
 		m->materials[i].ttexspeed=velTexT;
-        printf("modificaMaterial:El material %s del modelo %s fue modificado\n",nombreMaterial.c_str(),nombreModelo.c_str());
-        
+        printf("modificaMaterial:El material %s del modelo %s fue modificado\n",nombreMaterial.c_str(),nombreModelo.c_str());		
+
 	}
 	else
-		printf("modificaMaterial:El material %s no fue encontrado en el modelo %s\n",nombreMaterial.c_str(),nombreModelo.c_str());
+		printf("modificaMaterial:El material %s no fue encontrado en el modelo %s\n",nombreMaterial.c_str(),nombreModelo.c_str());		
 }
 
 
@@ -953,30 +1010,89 @@ void Escena::activaNiebla(bool activar)
 		glFogi(GL_FOG_MODE, GL_EXP);
 		glFogf(GL_FOG_START, inicioNiebla);
 		glFogf(GL_FOG_END, finNiebla);
-		glFogf(GL_FOG_DENSITY, densidadNiebla);
+		glFogf(GL_FOG_DENSITY, densidadNiebla);    		
 		glFogfv(GL_FOG_COLOR, colorNiebla);
 		
 	}
 	else
-        glDisable(GL_FOG);
+      glDisable(GL_FOG);
 }
 
-// Metodos de Camara
-
+// Metodos de Cámara
 
 Camara::Camara(GLfloat xview,GLfloat yview,GLfloat zview,
                GLfloat xrot,GLfloat yrot,GLfloat zrot,
                GLfloat far,GLfloat near,GLfloat fovy)
 {
-    this->xview=xview;
-    this->yview=yview;
-    this->zview=zview;
-    this->xrot=xrot;
-    this->yrot=yrot;
-    this->zrot=zrot;
-    this->far=far;
-    this->near=near;
-    this->fovy=fovy;
+  this->xview=xview;
+  this->yview=yview;
+  this->zview=zview;
+  this->xrot=xrot;
+  this->yrot=yrot;
+  this->zrot=zrot;
+  this->far=far;
+  this->near=near;
+  this->fovy=fovy;
 }
 
+KeyFrame::KeyFrame(GLfloat posX,GLfloat posY,GLfloat posZ, GLfloat rotX,GLfloat rotY,GLfloat rotZ,GLfloat escalaX,GLfloat escalaY,GLfloat escalaZ)
+{
+    this->posX=posX;
+    this->posY=posY;
+    this->posZ=posZ;
+    this->rotX=rotX;
+    this->rotY=rotY;
+    this->rotZ=rotZ;
+    this->escalaX=escalaX;
+    this->escalaY=escalaY;
+    this->escalaZ=escalaZ;
+}
 
+// Métodos de Poses
+
+Poses::Poses(char *prefijo,int nposes,int framerate):Objeto() {
+    char nombre[100];
+    this->poseactual=0;
+    this->nposes=nposes;
+    this->framerate=framerate;
+    this->poses.resize(nposes);
+    for(int i=0; i<nposes; i++) {
+        sprintf(nombre,prefijo,i);
+        this->poses[i]=new Modelo(nombre,TEX_LINEAR);
+    }
+}
+
+void Poses::forma() {
+    if((escenaActual->currentFrame % framerate)==0) {
+        poseactual++;
+    }
+    if(poseactual>=nposes) {
+        poseactual=0;
+    }
+    poses[poseactual]->forma();
+}
+
+// Implementaciones para Escena.cpp
+
+float rfloat(float min,float max)
+{
+    min*=1000;
+    max*=1000;
+    return (min+(rand() % (long)(max-min)))/1000;
+}
+float rfloat(float max)
+{
+    return rfloat(0.0,max);
+}
+float rcolor()
+{
+    return rfloat(1.0);
+}
+int rint(int min,int max)
+{
+    return min+rand() % (max-min);
+}
+int rint(int max)
+{
+    return rand() % max;
+}

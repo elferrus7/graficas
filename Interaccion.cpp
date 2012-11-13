@@ -62,19 +62,20 @@ void keyboardSpec(int key,int x,int y)
 		  case GLUT_KEY_DOWN:      activa->yview-=dtran;
 								   redimensiona(currWidth,currHeight);
 								   break;
-		  case GLUT_KEY_LEFT:      activa->xview-=dtran;
-								   redimensiona(currWidth,currHeight);
-								   break;
-
-		  case GLUT_KEY_RIGHT:     activa->xview+=dtran;
-								   redimensiona(currWidth,currHeight);
-								   break;
 
 		  case GLUT_KEY_PAGE_UP:   activa->zview+=dtran;
 								   redimensiona(currWidth,currHeight);
 								   break;
 
 		  case GLUT_KEY_PAGE_DOWN: activa->zview-=dtran;
+								   redimensiona(currWidth,currHeight);
+								   break;
+
+		  case GLUT_KEY_LEFT:      activa->xview-=dtran;
+								   redimensiona(currWidth,currHeight);
+								   break;
+
+		  case GLUT_KEY_RIGHT:     activa->xview+=dtran;
 								   redimensiona(currWidth,currHeight);
 								   break;
 								   

@@ -9,7 +9,7 @@
 #include "misCamaras.h"
 
 //Deshabilita la consola  (exclusivo para Windows - Visual Studio)
-//#pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
+#pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
 
 //Variables globales
 Escena *escena = new Escena();  //Escena actual
@@ -72,7 +72,7 @@ void redimensiona(int width,int height) {
 
 int main( int argc, char **argv) {
 	glutInit(&argc,argv);	
-	init(WIN_POSX,WIN_POSY,WIN_WIDTH,WIN_HEIGHT,"JEFF THE KILLER!!! XOXOXOXO");
+	init(WIN_POSX,WIN_POSY,WIN_WIDTH,WIN_HEIGHT,"Framework Texture");
 	glutDisplayFunc(render);
 	glutIdleFunc(idle);
 	glutReshapeFunc(redimensiona);

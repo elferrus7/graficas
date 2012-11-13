@@ -18,4 +18,3 @@ extern int lastMouseX;       //Posicion previa de mouse en X
 extern int lastMouseY;       //Posicion previa de mouse en Y
 extern bool tecladoDefault;  //Determina si debe ejecutarse la interaccion default para teclado
 extern bool mouseDefault;    //Determina si debe ejecutarse la interaccion default para mouse
-
