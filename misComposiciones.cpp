@@ -78,303 +78,66 @@ void demuestraMateriales()
 	
 }
 
-/* ---------------------------------------------------------------- */
-/* ---------- Definición de métodos para cargar la casa ----------- */
-/* ---------------------------------------------------------------- */
-void exteriorCasa(){
-	//escena->agregaObjeto("ParedSala-1", (Objeto *) new Paralelepipedo(5.0, ALTOCASA, ANCHOPARED));
 
-	//escena->agregaObjeto("ParedBanio-Bodega", (Objeto *) new Paralelepipedo(6.0, ALTOCASA, ANCHOPARED));
-	//escena->objetos["ParedBanio-Bodega"]->posX = 6.0;
-
-	//escena->agregaObjeto("PV1", (Objeto *) new Paralelepipedo(5.5, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV1"]->rotY = 90.0;
-
-	escena->agregaObjeto("PV1", (Objeto *) new Cubo(1.0, 0.3, 0.3, 0.3));
-	escena->objetos["PV1"]->escalaX = ANCHOPARED;
-	escena->objetos["PV1"]->escalaY = ALTOCASA;
-	escena->objetos["PV1"]->escalaZ = 5.5;
-	
-	//escena->agregaObjeto("PV2", (Objeto *) new Paralelepipedo(3.5, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV2"]->rotY = 90.0;
-	//escena->objetos["PV2"]->posZ = -5.5;
-	escena->agregaObjeto("PV2", (Objeto *) new Cubo(1.0, 0.3, 0.3, 0.3));
-	escena->objetos["PV2"]->escalaX = ANCHOPARED;
-	escena->objetos["PV2"]->escalaY = ALTOCASA;
-	escena->objetos["PV2"]->escalaZ = 3.5;
-	escena->objetos["PV2"]->posZ = -5.5;
-	
-	//escena->agregaObjeto("PV3", (Objeto *) new Paralelepipedo(17.25, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV3"]->posX = 13;
-	//escena->objetos["PV3"]->rotY = 90.0;
-	escena->agregaObjeto("PV3", (Objeto *) new Cubo(1.0, 0.3, 0.3, 0.3));
-	escena->objetos["PV3"]->escalaX = ANCHOPARED;
-	escena->objetos["PV3"]->escalaY = ALTOCASA;
-	escena->objetos["PV3"]->escalaZ = 17.25;
-	escena->objetos["PV3"]->posX = 13;
-
-	//escena->agregaObjeto("PV4", (Objeto *) new Paralelepipedo(4.5, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV4"]->posX = 5.25;
-	//escena->objetos["PV4"]->rotY = 90.0;
-	escena->agregaObjeto("PV4", (Objeto *) new Cubo(1.0, 0.3, 0.3, 0.3));
-	escena->objetos["PV4"]->escalaX = ANCHOPARED;
-	escena->objetos["PV4"]->escalaY = ALTOCASA;
-	escena->objetos["PV4"]->escalaZ = 4.25;
-	escena->objetos["PV4"]->posX = 5.25;
-
-	//escena->agregaObjeto("PV5", (Objeto *) new Paralelepipedo(3, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV5"]->posX = 6.5;
-	//escena->objetos["PV5"]->posZ = -0.25;
-	//escena->objetos["PV5"]->rotY = 90.0;
-	escena->agregaObjeto("PV5", (Objeto *) new Cubo(1.0, 0.3, 0.3, 0.3));
-	escena->objetos["PV5"]->escalaX = ANCHOPARED;
-	escena->objetos["PV5"]->escalaY = ALTOCASA;
-	escena->objetos["PV5"]->escalaZ = 3;
-	escena->objetos["PV5"]->posX = 6.5;
-	escena->objetos["PV5"]->posZ = -0.25;
-
-	//escena->agregaObjeto("PV6", (Objeto *) new Paralelepipedo(3, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV6"]->posX = 8.25;
-	//escena->objetos["PV6"]->posZ = -0.25;
-	//escena->objetos["PV6"]->rotY = 90.0;
-	escena->agregaObjeto("PV6", (Objeto *) new Cubo(1.0, 0.3, 0.3, 0.3));
-	escena->objetos["PV6"]->escalaX = ANCHOPARED;
-	escena->objetos["PV6"]->escalaY = ALTOCASA;
-	escena->objetos["PV6"]->escalaZ = 3;
-	escena->objetos["PV6"]->posX = 8.25;
-	escena->objetos["PV6"]->posZ = -0.25;
-
-	//escena->agregaObjeto("PV7", (Objeto *) new Paralelepipedo(3, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV7"]->posX = 6.5;
-	//escena->objetos["PV7"]->posZ = -4.5;
-	//escena->objetos["PV7"]->rotY = 90.0;
-	escena->agregaObjeto("PV7", (Objeto *) new Cubo(1.0, 0.3, 0.3, 0.3));
-	escena->objetos["PV7"]->escalaX = ANCHOPARED;
-	escena->objetos["PV7"]->escalaY = ALTOCASA;
-	escena->objetos["PV7"]->escalaZ = 3;
-	escena->objetos["PV7"]->posX = 6.5;
-	escena->objetos["PV7"]->posZ = -4.5;
-
-	//escena->agregaObjeto("PV8", (Objeto *) new Paralelepipedo(3, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV8"]->posX = 11.5;
-	//escena->objetos["PV8"]->posZ = -4.5;
-	//escena->objetos["PV8"]->rotY = 90.0;
-	escena->agregaObjeto("PV8", (Objeto *) new Cubo(1.0, 0.3, 0.3, 0.3));
-	escena->objetos["PV8"]->escalaX = ANCHOPARED;
-	escena->objetos["PV8"]->escalaY = ALTOCASA;
-	escena->objetos["PV8"]->escalaZ = 3;
-	escena->objetos["PV8"]->posX = 11.5;
-	escena->objetos["PV8"]->posZ = -4.5;
-
-	//escena->agregaObjeto("PV9", (Objeto *) new Paralelepipedo(1, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV9"]->posX = 3.5;
-	//escena->objetos["PV9"]->posZ = -5.75;
-	//escena->objetos["PV9"]->rotY = 90.0;
-	escena->agregaObjeto("PV9", (Objeto *) new Cubo(1.0, 0.3, 0.3, 0.3));
-	escena->objetos["PV9"]->escalaX = ANCHOPARED;
-	escena->objetos["PV9"]->escalaY = ALTOCASA;
-	escena->objetos["PV9"]->posX = 3.5;
-	escena->objetos["PV9"]->posZ = -5.75;
-
-
-	//escena->agregaObjeto("PV10", (Objeto *) new Paralelepipedo(1.25, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV10"]->posX = 3.5;
-	//escena->objetos["PV10"]->posZ = -7.5;
-	//escena->objetos["PV10"]->rotY = 90.0;
-	escena->agregaObjeto("PV10", (Objeto *) new Cubo(1.0, 0.3, 0.3, 0.3));
-	escena->objetos["PV10"]->escalaX = ANCHOPARED;
-	escena->objetos["PV10"]->escalaY = ALTOCASA;
-	escena->objetos["PV10"]->escalaZ = 1.25;
-	escena->objetos["PV10"]->posX = 3.5;
-	escena->objetos["PV10"]->posZ = -7.5;
-
-	//escena->agregaObjeto("PV11", (Objeto *) new Paralelepipedo(2, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV11"]->posX = 5.25;
-	//escena->objetos["PV11"]->posZ = -5.75;
-	//escena->objetos["PV11"]->rotY = 90.0;
-	escena->agregaObjeto("PV11", (Objeto *) new Cubo(1.0, 0.3, 0.3, 0.3));
-	escena->objetos["PV11"]->escalaX = ANCHOPARED;
-	escena->objetos["PV11"]->escalaY = ALTOCASA;
-	escena->objetos["PV11"]->escalaZ = 1.25;
-	escena->objetos["PV11"]->posX = 3.5;
-	escena->objetos["PV11"]->posZ = -7.5;
-
-	//escena->agregaObjeto("PV12", (Objeto *) new Paralelepipedo(2.25, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV12"]->posX = 5.25;
-	//escena->objetos["PV12"]->posZ = -7.5;
-	//escena->objetos["PV12"]->rotY = 90.0;
-
-	//escena->agregaObjeto("PV13", (Objeto *) new Paralelepipedo(1.25, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV13"]->posX = 1.25;
-	//escena->objetos["PV13"]->posZ = -5.5;
-	//escena->objetos["PV13"]->rotY = 90.0;
-
-	//escena->agregaObjeto("PV14", (Objeto *) new Paralelepipedo(3, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV14"]->posX = 2.25;
-	//escena->objetos["PV14"]->posZ = -9;
-	//escena->objetos["PV14"]->rotY = 90.0;
-
-	//escena->agregaObjeto("PV15", (Objeto *) new Paralelepipedo(1, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV15"]->posX = 5.25;
-	//escena->objetos["PV15"]->posZ = -10.75;
-	//escena->objetos["PV15"]->rotY = 90.0;
-
-	//escena->agregaObjeto("PV16", (Objeto *) new Paralelepipedo(0.75, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV16"]->posX = 6.5;
-	//escena->objetos["PV16"]->posZ = -9;
-	//escena->objetos["PV16"]->rotY = 90.0;
-
-	//escena->agregaObjeto("PV17", (Objeto *) new Paralelepipedo(0.75, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV17"]->posX = 6.5;
-	//escena->objetos["PV17"]->posZ = -10.75;
-	//escena->objetos["PV17"]->rotY = 90.0;
-
-	//escena->agregaObjeto("PV18", (Objeto *) new Paralelepipedo(0.75, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV18"]->posX = 8;
-	//escena->objetos["PV18"]->posZ = -7;
-	//escena->objetos["PV18"]->rotY = 90.0;
-
-	//escena->agregaObjeto("PV19", (Objeto *) new Paralelepipedo(7.75, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV19"]->posX = 8;
-	//escena->objetos["PV19"]->posZ = -9.25;
-	//escena->objetos["PV19"]->rotY = 90.0;
-
-	//escena->agregaObjeto("PV20", (Objeto *) new Paralelepipedo(2.25, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV20"]->posX = 9.25;
-	//escena->objetos["PV20"]->posZ = -7;
-	//escena->objetos["PV20"]->rotY = 90.0;
-
-	//escena->agregaObjeto("PV21", (Objeto *) new Paralelepipedo(0.75, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV21"]->posX = 9.5;
-	//escena->objetos["PV21"]->posZ = -9.25;
-	//escena->objetos["PV21"]->rotY = 90.0;
-
-	//escena->agregaObjeto("PV22", (Objeto *) new Paralelepipedo(2.5, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PV22"]->posX = 11.5;
-	//escena->objetos["PV22"]->posZ = -9;
-	//escena->objetos["PV22"]->rotY = 90.0;
-
-	//escena->agregaObjeto("PH1", (Objeto *) new Paralelepipedo(5, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PH1"]->posX = 0.25;
-	//escena->objetos["PH1"]->posZ = -0.25;
-
-	//escena->agregaObjeto("PH2", (Objeto *) new Paralelepipedo(6.5, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PH2"]->posX = 6.5;
-	//escena->objetos["PH2"]->posZ = -0.25;
-
-	//escena->agregaObjeto("PH3", (Objeto *) new Paralelepipedo(1.25, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PH3"]->posX = 0.25;
-	//escena->objetos["PH3"]->posZ = -4.5;
-
-	//escena->agregaObjeto("PH4", (Objeto *) new Paralelepipedo(2.25, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PH4"]->posX = 3;
-	//escena->objetos["PH4"]->posZ = -4.5;
-
-	//escena->agregaObjeto("PH5", (Objeto *) new Paralelepipedo(0.75, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PH5"]->posX = 6.5;
-	//escena->objetos["PH5"]->posZ = -3.5;
-
-	//escena->agregaObjeto("PH6", (Objeto *) new Paralelepipedo(3.75, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PH6"]->posX = 8;
-	//escena->objetos["PH6"]->posZ = -3.5;
-
-	//escena->agregaObjeto("PH7", (Objeto *) new Paralelepipedo(4.75, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PH7"]->posX = 6.75;
-	//escena->objetos["PH7"]->posZ = -4.75;
-
-	//escena->agregaObjeto("PH8", (Objeto *) new Paralelepipedo(3, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PH8"]->posX = 2.5;
-	//escena->objetos["PH8"]->posZ = -5.75;
-
-	//escena->agregaObjeto("PH9", (Objeto *) new Paralelepipedo(1, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PH9"]->posX = 0.25;
-	//escena->objetos["PH9"]->posZ = -6.75;
-
-	//escena->agregaObjeto("PH10", (Objeto *) new Paralelepipedo(5, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PH10"]->posX = 0.25;
-	//escena->objetos["PH10"]->posZ = -9;
-
-	//escena->agregaObjeto("PH11", (Objeto *) new Paralelepipedo(3, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PH11"]->posX = 2.5;
-	//escena->objetos["PH11"]->posZ = -12;
-
-	//escena->agregaObjeto("PH12", (Objeto *) new Paralelepipedo(1.5, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PH12"]->posX = 6.5;
-	//escena->objetos["PH12"]->posZ = -7.75;
-
-	//escena->agregaObjeto("PH13", (Objeto *) new Paralelepipedo(2, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PH13"]->posX = 9.5;
-	//escena->objetos["PH13"]->posZ = -9.25;
-
-	//escena->agregaObjeto("PH14", (Objeto *) new Paralelepipedo(1.5, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PH14"]->posX = 6.75;
-	//escena->objetos["PH14"]->posZ = -9.25;
-
-	//escena->agregaObjeto("PH15", (Objeto *) new Paralelepipedo(0.25, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PH15"]->posX = 9.25;
-	//escena->objetos["PH15"]->posZ = -10;
-
-	//escena->agregaObjeto("PH16", (Objeto *) new Paralelepipedo(2.25, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PH16"]->posX = 9.25;
-	//escena->objetos["PH16"]->posZ = -11.5;
-
-	//escena->agregaObjeto("PH17", (Objeto *) new Paralelepipedo(1.25, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PH17"]->posX = 6.75;
-	//escena->objetos["PH17"]->posZ = -11.5;
-
-	//escena->agregaObjeto("PH18", (Objeto *) new Paralelepipedo(3.75, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PH18"]->posX = 9.25;
-	//escena->objetos["PH18"]->posZ = -12.5;
-
-	//escena->agregaObjeto("PH19", (Objeto *) new Paralelepipedo(5, ALTOCASA, ANCHOPARED));
-	//escena->objetos["PH19"]->posX = 8;
-	//escena->objetos["PH19"]->posZ = -17.25;
-
-	//escena->agregaObjeto("Piso", (Objeto *) new Paralelepipedo(13.25, 9.0, 0.1));
-	//escena->objetos["Piso"]->rotX=90;
-	//escena->objetos["Piso"]->posZ=-9.0;
-
-	//escena->agregaObjeto("Piso2", (Objeto *) new Paralelepipedo(11.0, 3.0, 0.1));
-	//escena->objetos["Piso2"]->rotX=90;
-	//escena->objetos["Piso2"]->posX=2.25;
-	//escena->objetos["Piso2"]->posZ=-12.0;
-
-	//escena->agregaObjeto("Piso3", (Objeto *) new Paralelepipedo(5.0, 5.25, 0.1));
-	//escena->objetos["Piso3"]->rotX=90;
-	//escena->objetos["Piso3"]->posX=8.25;
-	//escena->objetos["Piso3"]->posZ=-17.0;
-
-	//escena->agregaObjeto("Pasto1", (Objeto *) new Paralelepipedo(2.25, 8.0, 0.1));
-	//escena->objetos["Pasto1"]->rotX=90;
-	//escena->objetos["Pasto1"]->posZ=-16.75;
-
-	//escena->agregaObjeto("Pasto2", (Objeto *) new Paralelepipedo(6.5, 4.75, 0.1));
-	//escena->objetos["Pasto2"]->rotX=90;
-	//escena->objetos["Pasto2"]->posX=2.25;
-	//escena->objetos["Pasto2"]->posZ=-16.75;
+void pared(string nombre, GLfloat largo, GLfloat posX, GLfloat posZ, bool rot){
+    escena->agregaObjeto(nombre, (Objeto *) new Cubo(1.0, 0.3, 0.3, 0.3));
+    escena->objetos[nombre]->escalaY = ALTOCASA;
+    if ( !rot ){
+        escena->objetos[nombre]->escalaX = ANCHOPARED;
+        escena->objetos[nombre]->escalaZ = largo;
+    } else {
+        escena->objetos[nombre]->escalaX = largo;
+        escena->objetos[nombre]->escalaZ = ANCHOPARED;
+    }
+    escena->objetos[nombre]->posX = posX + escena->objetos[nombre]->escalaX / 2;
+    escena->objetos[nombre]->posZ = posZ - escena->objetos[nombre]->escalaZ / 2;
 }
 
-void salaCasa(){
-	escena->agregaObjeto("ParedSala-2", (Objeto *) new Paralelepipedo(4.0, ALTOCASA, ANCHOPARED));
-	escena->objetos["ParedSala-2"]->posX = 4.75;
-	escena->objetos["ParedSala-2"]->rotY = 90.0;
-
-	escena->agregaObjeto("ParedSala-3", (Objeto *) new Paralelepipedo(2.0, ALTOCASA, ANCHOPARED));
-	escena->objetos["ParedSala-3"]->posZ = -4;
-
-	escena->agregaObjeto("ParedSala-4", (Objeto *) new Paralelepipedo(2.0, ALTOCASA, ANCHOPARED));
-	escena->objetos["ParedSala-4"]->posX = 3;
-	escena->objetos["ParedSala-4"]->posZ = -4;
-}
-
-void banio1(){
-	escena->agregaObjeto("ParedBanio1-1", (Objeto *) new Paralelepipedo(3.0, ALTOCASA, ANCHOPARED));
-	escena->objetos["ParedBanio1-1"]->posX = 6;
-	escena->objetos["ParedBanio1-1"]->rotY = 90.0;
-
-	escena->agregaObjeto("ParedBanio1-2", (Objeto *) new Paralelepipedo(0.5, ALTOCASA, ANCHOPARED));
-	escena->objetos["ParedBanio1-2"]->posX = 6;
-	escena->objetos["ParedBanio1-2"]->posZ = -3;
+/* ---------------------------------------------------------------- */
+/* ---------- Definici—n de mtodos para cargar la casa ----------- */
+/* ---------------------------------------------------------------- */
+void paredesCasa(){
+    
+    pared("E1", 18.0, 0.0, 0.0, false);
+    pared("E2", 10.0, 0.0, 0.0, true);
+    pared("E3", 2.0, 10.0, 0.0, false);
+    pared("E4", 4.0, 10.0, -4.0, false);
+    pared("E5", 6.0, 4.0, -8.0, true);
+    pared("E6", 2.0, 0.0, -8.0, true);
+    pared("E7", 2.0, 0.0, -12.0, true);
+    pared("E8", 2.0, 2.0, -10.0, false);
+    pared("E9", 6.0, 4.0, -10.0, true);
+    pared("E10", 4.0, 6.0, -10.0, false);
+    pared("E11", 8.0, 10.0, -10.0, false);
+    pared("E12", 2.0, 0.0, -8.0, true);
+    pared("E13", 10.0, 0.0, -18.0, true);
+    pared("E14", 6.0, 2.0, -18.0, false);
+    pared("E15", 14.0, 2.0, -24.0, true);
+    pared("E16", 2.0, 10.0, -22.0, false);
+    pared("E17", 2.0, 10.0, -18.0, false);
+    pared("E18", 14.0, 0.0, -20.0, false);
+    pared("E19", 24.0, 0.0, -34.0, true);
+    pared("E20", 34.0, 24.0, 0.0, false);
+    pared("E21", 8.0, 16.0, -26.0, false);
+    pared("E22", 6.0, 18.0, -26.0, true);
+    pared("E23", 2.0, 12.0, -22.0, false);
+    pared("E24", 6.0, 16.0, -18.0, false);
+    pared("E25", 4.0, 12.0, -18.0, true);
+    pared("E26", 2.0, 12.0, -18.0, false);
+    pared("E27", 8.0, 18.0, -14.0, false);
+    pared("E28", 4.0, 18.0, -20.0, true);
+    pared("E29", 4.0, 18.0, -24.0, true);
+    pared("E30", 4.0, 22.0, -20.0, false);
+    pared("E31", 10.0, 22.0, -8.0, false);
+    pared("E32", 10.0, 12.0, -8.0, true);
+    pared("E33", 8.0, 12.0, -8.0, false);
+    pared("E34", 4.0, 12.0, -16.0, true);
+    pared("E35", 6.0, 16.0, -6.0, true);
+    pared("E36", 2.0, 16.0, -14.0, false);
+    pared("E37", 12.0, 12.0, 0.0, true);
+    pared("E38", 6.0, 16.0, -0.0, false);
+    pared("E39", 6.0, 12.0, -0.0, false);
+    pared("E40", 2.0, 12.0, -6.0, true);
 }
 
 void jeff(){
@@ -385,10 +148,8 @@ void jeff(){
 }
 
 void creaCasa(){
-	exteriorCasa();
+	paredesCasa();
 	jeff();
-	//salaCasa();	
-	//banio1();
 }
 
 

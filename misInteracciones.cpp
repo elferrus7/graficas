@@ -46,8 +46,8 @@ void miTeclado(unsigned char key,int x,int y)
            break;
            
        case 'i':
-           if(!escena->impideColision2(escena->objetos["cubo1"], 0.0, 0.0, dtran)){
-               escena->objetos["cubo1"]->posZ += dtran;
+           if(!escena->impideColision2(escena->objetos["cubo1"], 0.0, 0.0, -dtran)){
+               escena->objetos["cubo1"]->posZ -= dtran;
            }
            break;
            
@@ -58,8 +58,8 @@ void miTeclado(unsigned char key,int x,int y)
            break;
            
        case 'k':
-           if(!escena->impideColision2(escena->objetos["cubo1"], 0.0, 0.0, -dtran)){
-               escena->objetos["cubo1"]->posZ -= dtran;
+           if(!escena->impideColision2(escena->objetos["cubo1"], 0.0, 0.0, dtran)){
+               escena->objetos["cubo1"]->posZ += dtran;
            }
            break;
 
