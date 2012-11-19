@@ -12,7 +12,10 @@
  */
 #pragma once
 
-#include <GLUT/glut.h>
+// Para Windows:
+#include <gl/glut.h>
+// Para Mac OS:
+//#include <GLUT/glut.h>
 
 #ifndef M_PI
 #define M_PI 3.14159265f

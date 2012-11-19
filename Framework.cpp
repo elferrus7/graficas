@@ -24,6 +24,25 @@ int lastMouseY=0;               //Posicion previa de mouse en Y
 bool tecladoDefault=true;       //Determina si debe ejecutarse la interaccion default para teclado
 bool mouseDefault=true;        //Determina si debe ejecutarse la interaccion default para mouse
 
+void drawStrokeText(float x,float y,float z,char *string)
+{
+	  
+	  char *c;
+	  glPushMatrix();
+	  glTranslatef(x,y,z);
+	  glLineWidth(2.0);
+	  glColor3f(1.0,1.0,1.0);
+	  glScalef(0.01, 0.01, 0.01);
+	  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  
+	  for (c=string; *c != '\0'; c++)
+	  {
+    		glutStrokeCharacter(GLUT_STROKE_MONO_ROMAN , *c);
+	  }
+	  glPopMatrix();
+}
+
+
 void idle()
 {
   static unsigned long time=glutGet(GLUT_ELAPSED_TIME);
@@ -44,6 +63,9 @@ void render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	 
 	escena->ilumina();
 	escena->dibujaEscena();
+
+	drawStrokeText(1.0,1.0,0.0,"Items:");
+
 	glutSwapBuffers();	
 }
 
