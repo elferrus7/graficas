@@ -1,8 +1,9 @@
 #include "misComposiciones.h"
+#include <iostream>
 
 // Variables para la CASA
-#define ALTOCASA	2.5
-#define ANCHOPARED	0.25
+#define ALTOCASA	2.0
+#define ANCHOPARED	0.2
 
 void defineLuces()
 {
@@ -20,24 +21,23 @@ void defineLuces()
 
 void demuestraModelo()
 {
-  escena->agregaObjeto("ejemplo", (Objeto *) new Modelo("al"));
-  escena->objetos["ejemplo"]->escalaUniforme(3.0);
+    escena->agregaObjeto("ejemplo", (Objeto *) new Modelo("al"));
+    escena->objetos["ejemplo"]->escalaUniforme(3.0);
 }
 
-
 void demuestraMateriales()
-{ 
-
-    //Esfera que sirve como Sky Dome. IMPORTANTE: lighting, el ultimo parametro de defineMaterial, es false 
+{
+    
+    //Esfera que sirve como Sky Dome. IMPORTANTE: lighting, el ultimo parametro de defineMaterial, es false
     escena->agregaObjeto("skydome",(Objeto *) new Esfera(40.0,30,30,1.0,1.0,1.0));
     escena->objetos["skydome"]->velRotX=0.1;
 	escena->objetos["skydome"]->defineMaterial(1.0,1.0,1.0,
-										 1.0,1.0,1.0,
-										 0.0,0.0,0.0,
-										 0.0,0.0,0.0,
-										 "agua.tga",GL_REPEAT,0.5,0.0,0.0,0.0,0.0,1.0,GL_SPHERE_MAP,false);
-
-
+                                               1.0,1.0,1.0,
+                                               0.0,0.0,0.0,
+                                               0.0,0.0,0.0,
+                                               "agua.tga",GL_REPEAT,0.5,0.0,0.0,0.0,0.0,1.0,GL_SPHERE_MAP,false);
+    
+    
     //Modelo Texturizado
 	escena->agregaObjeto("f-16", (Objeto *) new Modelo("f-16",TEX_SPHERE));
 	escena->objetos["f-16"]->escalaUniforme(2.0);
@@ -85,7 +85,7 @@ void particulasAlpha()
 
 void muestraAlphaQuad()
 {
-    escena->agregaObjeto("hojas", (Objeto *) new AlphaQuad(escena,"agua.tga",GL_REPEAT,0.8,5,5,0.01,0.01,0.5,0,0));
+    escena->agregaObjeto("hojas", (Objeto *) new AlphaQuad(escena,"AZULEJO.tga",GL_REPEAT,0.8,5,5,0,0,0.5,0,0));
     //escena->agregaObjeto("ejemplo", (Objeto *) new Modelo("al"));
 }
 
@@ -132,62 +132,129 @@ void pruebaPicking(){
 /* ---------- Definición de métodos para cargar la casa ----------- */
 /* ---------------------------------------------------------------- */
 
-void pared(string nombre, GLfloat largo, GLfloat posX, GLfloat posZ, bool rot){
-    escena->agregaObjeto(nombre, (Objeto *) new Cubo(1.0, 0.3, 0.3, 0.3));
+void pared2(string snombre, GLfloat largo, GLfloat posX, GLfloat posZ, bool rot, string textura){
+    const char* nombre = snombre.c_str();
+    escena->agregaObjeto(nombre, (Objeto *) new Cubo(1.0, 1.0, 1.0, 1.0));
     escena->objetos[nombre]->escalaY = ALTOCASA;
+    
+    char nombreTapiz1[20];
+    char nombreTapiz2[20];
+    int nTapiz = largo/ALTOCASA;
+    for(int i=0; i<nTapiz; i++){
+        sprintf(nombreTapiz1, "%st%dA", nombre, i);
+        escena->agregaObjeto(nombreTapiz1, (Objeto *) new AlphaQuad(escena, "AZULEJO.tga", GL_REPEAT, 0.9, ALTOCASA, ALTOCASA, 0, 0, 0.5, 0, 0));
+        
+        sprintf(nombreTapiz2, "%st%dB", nombre, i);
+        escena->agregaObjeto(nombreTapiz2, (Objeto *) new AlphaQuad(escena, "AZULEJO.tga", GL_REPEAT, 0.9, ALTOCASA, ALTOCASA, 0, 0, 0.5, 0, 0));
+        
+        if( !rot ){
+            escena->objetos[nombreTapiz1]->rotY = 90;
+            escena->objetos[nombreTapiz1]->posZ = posZ - ALTOCASA/2 - i*ALTOCASA;
+            escena->objetos[nombreTapiz1]->posX = posX - 0.01;
+            escena->objetos[nombreTapiz2]->rotY = 90;
+            escena->objetos[nombreTapiz2]->posZ = posZ - ALTOCASA/2 - i*ALTOCASA;
+            escena->objetos[nombreTapiz2]->posX = posX + ANCHOPARED + 0.01;
+        } else {
+            escena->objetos[nombreTapiz1]->posX = posX + ALTOCASA/2 + i*ALTOCASA;
+            escena->objetos[nombreTapiz1]->posZ = posZ + ANCHOPARED/2 - 0.075;
+            escena->objetos[nombreTapiz2]->posX = posX + ALTOCASA/2 + i*ALTOCASA;
+            escena->objetos[nombreTapiz2]->posZ = posZ - ANCHOPARED - 0.025;
+        }
+        
+    }
+    
     if ( !rot ){
         escena->objetos[nombre]->escalaX = ANCHOPARED;
         escena->objetos[nombre]->escalaZ = largo;
+        
     } else {
         escena->objetos[nombre]->escalaX = largo;
         escena->objetos[nombre]->escalaZ = ANCHOPARED;
+        
     }
+    
     escena->objetos[nombre]->posX = posX + escena->objetos[nombre]->escalaX / 2;
     escena->objetos[nombre]->posZ = posZ - escena->objetos[nombre]->escalaZ / 2;
+    
+}
+
+void pared(string nombre, GLfloat largo, GLfloat posX, GLfloat posZ, bool rot, string textura){
+    string cubo1 = nombre + "c1";
+    string cubo2 = nombre + "c2";
+    escena->agregaObjeto(cubo1, (Objeto *) new Cubo(1.0, 0.0, 0.0, 1.0));
+    escena->agregaObjeto(cubo2, (Objeto *) new Cubo(1.0, 0.0, 0.0, 1.0));
+    escena->objetos[cubo1]->defineMaterial(1.0,1.0,1.0,
+                                           1.0,1.0,1.0,
+                                           0.0,0.0,0.0,
+                                           0.0,0.0,0.0,
+                                           textura,GL_REPEAT,1.0,0.0,0.0,0.0,0.0,1.0,GL_EYE_LINEAR,false);
+    escena->objetos[cubo2]->defineMaterial(1.0,1.0,1.0,
+                                           1.0,1.0,1.0,
+                                           0.0,0.0,0.0,
+                                           0.0,0.0,0.0,
+                                           textura,GL_REPEAT,1.0,0.0,0.0,0.0,0.0,1.0,GL_OBJECT_LINEAR,false);
+    escena->objetos[cubo2]->rotY = 90.0;
+    escena->objetos[cubo1]->escalaY = ALTOCASA;
+    escena->objetos[cubo2]->escalaY = ALTOCASA;
+    if ( !rot ){
+        escena->objetos[cubo1]->escalaX = ANCHOPARED - 0.01;
+        escena->objetos[cubo1]->escalaZ = largo;
+        escena->objetos[cubo2]->escalaX = ANCHOPARED;
+        escena->objetos[cubo2]->escalaZ = largo - 0.01;
+    } else {
+        escena->objetos[cubo1]->escalaX = largo - 0.01;
+        escena->objetos[cubo1]->escalaZ = ANCHOPARED;
+        escena->objetos[cubo2]->escalaX = largo;
+        escena->objetos[cubo2]->escalaZ = ANCHOPARED - 0.01;
+    }
+    escena->objetos[cubo1]->posX = posX + 0.005 + escena->objetos[cubo1]->escalaX / 2;
+    escena->objetos[cubo1]->posZ = posZ - escena->objetos[cubo1]->escalaZ / 2;
+    escena->objetos[cubo2]->posX = posX + escena->objetos[cubo2]->escalaX / 2;
+    escena->objetos[cubo2]->posZ = posZ - 0.005 - escena->objetos[cubo2]->escalaZ / 2;
 }
 
 void paredesCasa(){
     
-    pared("E1", 18.0, 0.0, 0.0, false);
-    pared("E2", 10.0, 0.0, 0.0, true);
-    pared("E3", 2.0, 10.0, 0.0, false);
-    pared("E4", 4.0, 10.0, -4.0, false);
-    pared("E5", 6.0, 4.0, -8.0, true);
-    pared("E6", 2.0, 0.0, -8.0, true);
-    pared("E7", 2.0, 0.0, -12.0, true);
-    pared("E8", 2.0, 2.0, -10.0, false);
-    pared("E9", 6.0, 4.0, -10.0, true);
-    pared("E10", 4.0, 6.0, -10.0, false);
-    pared("E11", 8.0, 10.0, -10.0, false);
-    pared("E12", 2.0, 0.0, -8.0, true);
-    pared("E13", 10.0, 0.0, -18.0, true);
-    pared("E14", 6.0, 2.0, -18.0, false);
-    pared("E15", 14.0, 2.0, -24.0, true);
-    pared("E16", 2.0, 10.0, -22.0, false);
-    pared("E17", 2.0, 10.0, -18.0, false);
-    pared("E18", 14.0, 0.0, -20.0, false);
-    pared("E19", 24.0, 0.0, -34.0, true);
-    pared("E20", 34.0, 24.0, 0.0, false);
-    pared("E21", 8.0, 16.0, -26.0, false);
-    pared("E22", 6.0, 18.0, -26.0, true);
-    pared("E23", 2.0, 12.0, -22.0, false);
-    pared("E24", 6.0, 16.0, -18.0, false);
-    pared("E25", 4.0, 12.0, -18.0, true);
-    pared("E26", 2.0, 12.0, -18.0, false);
-    pared("E27", 8.0, 18.0, -14.0, false);
-    pared("E28", 4.0, 18.0, -20.0, true);
-    pared("E29", 4.0, 18.0, -24.0, true);
-    pared("E30", 4.0, 22.0, -20.0, false);
-    pared("E31", 10.0, 22.0, -8.0, false);
-    pared("E32", 10.0, 12.0, -8.0, true);
-    pared("E33", 8.0, 12.0, -8.0, false);
-    pared("E34", 4.0, 12.0, -16.0, true);
-    pared("E35", 6.0, 16.0, -6.0, true);
-    pared("E36", 2.0, 16.0, -14.0, false);
-    pared("E37", 12.0, 12.0, 0.0, true);
-    pared("E38", 6.0, 16.0, -0.0, false);
-    pared("E39", 6.0, 12.0, -0.0, false);
-    pared("E40", 2.0, 12.0, -6.0, true);
+    pared2("E1", 18.0, 0.0, 0.0, false, "azulejo.tga");
+    pared2("E2", 10.0, 0.0, 0.0, true, "azulejo.tga");
+    pared2("E3", 2.0, 10.0, 0.0, false, "metal_scratches.tga");
+    pared2("E4", 4.0, 10.0, -4.0, false, "metal_scratches.tga");
+    pared2("E5", 6.0, 4.0, -8.0, true, "metal_scratches.tga");
+    pared2("E6", 2.0, 0.0, -8.0, true, "metal_scratches.tga");
+    pared2("E7", 2.0, 0.0, -12.0, true, "metal_scratches.tga");
+    pared2("E8", 2.0, 2.0, -10.0, false, "metal_scratches.tga");
+    pared2("E9", 6.0, 4.0, -10.0, true, "metal_scratches.tga");
+    pared2("E10", 4.0, 6.0, -10.0, false, "metal_scratches.tga");
+    pared2("E11", 8.0, 10.0, -10.0, false, "metal_scratches.tga");
+    pared2("E12", 2.0, 0.0, -8.0, true, "metal_scratches.tga");
+    pared2("E13", 10.0, 0.0, -18.0, true, "metal_scratches.tga");
+    pared2("E14", 6.0, 2.0, -18.0, false, "metal_scratches.tga");
+    pared2("E15", 14.0, 2.0, -24.0, true, "metal_scratches.tga");
+    pared2("E16", 2.0, 10.0, -22.0, false, "metal_scratches.tga");
+    pared2("E17", 2.0, 10.0, -18.0, false, "metal_scratches.tga");
+    pared2("E18", 14.0, 0.0, -20.0, false, "metal_scratches.tga");
+    pared2("E19", 24.0, 0.0, -34.0, true, "metal_scratches.tga");
+    pared2("E20", 34.0, 24.0, 0.0, false, "metal_scratches.tga");
+    pared2("E21", 8.0, 16.0, -26.0, false, "metal_scratches.tga");
+    pared2("E22", 6.0, 18.0, -26.0, true, "metal_scratches.tga");
+    pared2("E23", 2.0, 12.0, -22.0, false, "metal_scratches.tga");
+    pared2("E24", 6.0, 16.0, -18.0, false, "metal_scratches.tga");
+    pared2("E25", 4.0, 12.0, -18.0, true, "metal_scratches.tga");
+    pared2("E26", 2.0, 12.0, -18.0, false, "metal_scratches.tga");
+    pared2("E27", 8.0, 18.0, -14.0, false, "metal_scratches.tga");
+    pared2("E28", 4.0, 18.0, -20.0, true, "metal_scratches.tga");
+    pared2("E29", 4.0, 18.0, -24.0, true, "metal_scratches.tga");
+    pared2("E30", 4.0, 22.0, -20.0, false, "metal_scratches.tga");
+    pared2("E31", 10.0, 22.0, -8.0, false, "metal_scratches.tga");
+    pared2("E32", 10.0, 12.0, -8.0, true, "metal_scratches.tga");
+    pared2("E33", 8.0, 12.0, -8.0, false, "metal_scratches.tga");
+    pared2("E34", 4.0, 12.0, -16.0, true, "metal_scratches.tga");
+    pared2("E35", 6.0, 16.0, -6.0, true, "metal_scratches.tga");
+    pared2("E36", 2.0, 16.0, -14.0, false, "metal_scratches.tga");
+    pared2("E37", 12.0, 12.0, 0.0, true, "metal_scratches.tga");
+    pared2("E38", 6.0, 16.0, -0.0, false, "metal_scratches.tga");
+    pared2("E39", 6.0, 12.0, -0.0, false, "metal_scratches.tga");
+    pared2("E40", 2.0, 12.0, -6.0, true, "metal_scratches.tga");
 }
 
 void jeff(){
@@ -199,67 +266,110 @@ void jeff(){
 											3.0, 0.0, -16.0, 
 											0.0, 0.0, 0.0, 
 											1.0, 1.0, 1.0);
-    escena->objetos["jeff"]->agregaKeyFrame(40.0, 
+    escena->objetos["jeff"]->agregaKeyFrame(80.0, 
 											3.0, 0.0, -9.5, 
 											0.0, 0.0, 0.0, 
 											1.0, 1.0, 1.0);
-    escena->objetos["jeff"]->agregaKeyFrame(80.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(180.0, 
 											11.0, 0.0, -9.5, 
 											0.0, 0.0, 0.0, 
 											1.0, 1.0, 1.0);
-    escena->objetos["jeff"]->agregaKeyFrame(120.0, 
-											11.0, 0.0, -7.5, 
-											0.0, 0.0, 0.0, 
-											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(160.0, 
-											23.0, 0.0, -7.5, 
-											0.0, 0.0, 0.0, 
-											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(240.0, 
-											23.0, 0.0, -25.5, 
-											0.0, 0.0, 0.0, 
-											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(280.0, 
-											17.5, 0.0, -25.5, 
-											0.0, 0.0, 0.0, 
-											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(320.0, 
-											17.5, 0.0, -28.5, 
+    escena->objetos["jeff"]->agregaKeyFrame(220.0, 
+											11.0, 0.0, -7, 
 											0.0, 0.0, 0.0, 
 											1.0, 1.0, 1.0);
 	escena->objetos["jeff"]->agregaKeyFrame(360.0, 
-											22.0, 0.0, -28.5, 
-											0.0, 0.0, 0.0, 
-											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(400.0, 
-											22.0, 0.0, -32.5, 
-											0.0, 0.0, 0.0, 
-											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(440.0, 
-											17.5, 0.0, -32.5, 
-											0.0, 0.0, 0.0, 
-											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(480.0, 
-											17.5, 0.0, -12.5, 
-											0.0, 0.0, 0.0, 
-											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(520.0, 
-											19.0, 0.0, -12.5, 
+											23.0, 0.0, -7, 
 											0.0, 0.0, 0.0, 
 											1.0, 1.0, 1.0);
 	escena->objetos["jeff"]->agregaKeyFrame(560.0, 
+											23.0, 0.0, -25.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(620.0, 
+											17.5, 0.0, -25.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(660.0, 
+											17.5, 0.0, -28.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(740.0, 
+											22.0, 0.0, -28.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(780.0, 
+											22.0, 0.0, -32.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(820.0, 
+											17.5, 0.0, -32.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1000.0, 
+											17.5, 0.0, -12.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1020.0, 
+											19.0, 0.0, -12.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1100.0, 
 											19.0, 0.0, -18.5, 
 											0.0, 0.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(600.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(1140.0, 
 											23.0, 0.0, -18.5, 
 											0.0, 0.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(640.0, 
-											23.0, 0.0, -2.5, 
+	escena->objetos["jeff"]->agregaKeyFrame(1320.0, 
+											23.0, 0.0, -2, 
 											0.0, 0.0, 0.0, 
 											1.0, 1.0, 1.0);
-
+	escena->objetos["jeff"]->agregaKeyFrame(1360.0, 
+											19.0, 0.0, -2, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1380.0, 
+											19.0, 0.0, -3, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1420.0, 
+											23.5, 0.0, -3, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1460.0, 
+											23.5, 0.0, -7, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1580.0, 
+											11.0, 0.0, -7, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1700.0, 
+											11.0, 0.0, -21, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1740.0, 
+											7.0, 0.0, -21, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1780.0, 
+											11.0, 0.0, -21, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(2080.0, 
+											11.0, 0.0, -2.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(2180.0, 
+											3.0, 0.0, -2.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(2260.0, 
+											3.0, 0.0, -16, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
 
 }
 
@@ -280,12 +390,19 @@ void creaCasa(){
 void creaEscena()
 {
 	creaCasa();
-    
-    escena->agregaObjeto("cubo1", (Objeto*) new Cubo(1.0, 0.0, 0.0, 1.0));
+    escena->agregaObjeto("cubo1", (Objeto*) new Cubo(1.0, 0.0, 0.0, 0.5));
     escena->objetos["cubo1"]->posX = -3.0;
     escena->objetos["cubo1"]->posY = 1.0;
+
 	/*escena->agregaObjeto("cuboAvatar", (Objeto*) new Cubo(1.0, 0.0, 0.0, 1.0));
 	escena->objetos["cuboAvatar"]->posX = 11.1;
 	escena->objetos["cuboAvatar"]->posZ = 1;*/
+
+    
+    escena->agregaObjeto("center", (Objeto*) new Cubo(0.1, 1.0, 0.0, 0.0));
+    escena->objetos["center"]->posX = 0.0;
+    escena->objetos["center"]->posY = 2.0;
+    escena->objetos["center"]->posZ = 0.0;
+
 }
 
