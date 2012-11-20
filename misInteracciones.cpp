@@ -19,8 +19,6 @@ void miTeclado(unsigned char key,int x,int y)
              break;*/
         case '1' : activa = camaraFP; 
 				   escena->objetos["cuboAvatar"]->escalaUniforme(1.0);
-				   activa->fovy = 90.0;
-				   activa->yview = 1.0;
 				   redimensiona(currWidth,currHeight); 
 				   break;
             
@@ -28,8 +26,7 @@ void miTeclado(unsigned char key,int x,int y)
 				   redimensiona(currWidth,currHeight);
 				   break;
 		case '3' : escena->objetos["cuboAvatar"]->escalaUniforme(0.0);
-				   activa->fovy = 45.0;
-				   activa->yview = 0.5;
+				   activa = camaraFirst;
 				   redimensiona(currWidth,currHeight);
 				break;
 		case 'D':    

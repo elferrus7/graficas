@@ -10,6 +10,7 @@ extern Camara *camaraZenital;
 
 extern Camara *camaraFP;
 
+extern Camara *camaraFirst;
 void defineCamaras();
 
 

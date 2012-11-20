@@ -8,6 +8,7 @@ Camara *activa;
 //Definiciones de camaras especiales
 Camara *camaraZenital;
 Camara *camaraFP;
+Camara *camaraFirst;
 
 void defineCamaras()
 {
@@ -15,6 +16,7 @@ void defineCamaras()
   camaraDefault = new Camara(0.0,0.0,-5.0,0.0,0.0,0.0,100000.0,1.0,90.0);
   camaraZenital = new Camara(-11.1,-17.0,-43.0,90.0,0.0,0.0,100.0,1.0,45.0);
   camaraFP = new Camara(11.1, 1.0, 2.0,0.0,0.0,0.0,100000.0,0.5,90.0);
+  camaraFirst = new Camara(11.1, 0.5, 2.0,0.0,0.0,0.0,100000.0,0.5,45.0);
   //camaraFP = new Camara(11.1, 1.0, 2.0,0.0,0.0,0.0,100000.0,0.5,90.0); Camara tercera persona
   //Asignar a activa la camara con la que se desea iniciar
   
