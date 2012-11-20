@@ -19,6 +19,8 @@ void miTeclado(unsigned char key,int x,int y)
              break;*/
         case '1' : activa = camaraFP; 
 				   escena->objetos["cuboAvatar"]->escalaUniforme(1.0);
+				   camaraFP->far = 90.0;
+				   camaraFP->yview = 1.0;
 				   redimensiona(currWidth,currHeight); 
 				   break;
             
@@ -26,9 +28,12 @@ void miTeclado(unsigned char key,int x,int y)
 				   redimensiona(currWidth,currHeight);
 				   break;
 		case '3' : escena->objetos["cuboAvatar"]->escalaUniforme(0.0);
-				   activa = camaraFirst;
+				   activa = camaraFP; 
+				   //activa = camaraFirst;
+				   camaraFP->far = 45.0;
+				   camaraFP->yview = 0.5;
 				   redimensiona(currWidth,currHeight);
-				break;
+				   break;
 		case 'D':    
         case 'd': 
 			girarDerecha();
@@ -44,10 +49,11 @@ void miTeclado(unsigned char key,int x,int y)
         case 'a': 
             girarIzquierda();
             break;
-            /*case 's': activa->zrot-=drot;
-             redimensiona(currWidth,currHeight);
-             break;*/
-            
+        case 'S':
+        case 's': 
+			moverAtras();
+		break;
+
             /*case 'Z': activa->zrot-=drot;
              redimensiona(currWidth,currHeight);
              break;*/
@@ -122,9 +128,6 @@ void miMouseDrag(int x, int y,GLfloat deltaX,GLfloat deltaY)
   
   //Para desactivar comportamiento por default, hacer mouseDefault=false 
 }
-
-int rumbo=0;
-int itr = 0;
 
 void miIdle()
 {

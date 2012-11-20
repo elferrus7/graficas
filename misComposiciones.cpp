@@ -529,10 +529,21 @@ void jeff(){
 
 void avatar()
 {
-	escena->agregaObjeto("cuboAvatar", (Objeto *) new Modelo("avatar"));
+	escena->agregaObjeto("cuboAvatar", (Objeto *) new Cubo(1.0, 0.0, 0.0, 0.5));
+	escena->objetos["cuboAvatar"]->agregaDescendiente("avatar",(Objeto *) new Modelo("avatar"));
+	//escena->agregaObjeto("cuboAvatar", (Objeto *) new Modelo("avatar"));
 	//escena->objetos["al"]->escalaUniforme(3.0);
+	escena->objetos["cuboAvatar"]->escalaUniforme(0.6);
+
 	escena->objetos["cuboAvatar"]->posX =11.1;
+	escena->objetos["cuboAvatar"]->posY =-0.4;
 	escena->objetos["cuboAvatar"]->posZ = 1.0;
+	
+	/*escena->objetos["cuboAvatar"]->defineMaterial(1.0,1.0,1.0,
+                                           1.0,1.0,1.0,
+                                           0.0,0.0,0.0,
+                                           0.0,0.0,0.0,
+                                           "azulejo.tga",GL_REPEAT,0.0,0.0,0.0,0.0,0.0,1.0,GL_EYE_LINEAR,false);*/
 }
 
 void creaCasa(){
@@ -549,19 +560,6 @@ void creaCasa(){
 void creaEscena()
 {
 	creaCasa();
-    escena->agregaObjeto("cubo1", (Objeto*) new Cubo(1.0, 0.0, 0.0, 0.5));
-    escena->objetos["cubo1"]->posX = -3.0;
-    escena->objetos["cubo1"]->posY = 1.0;
-
-	/*escena->agregaObjeto("cuboAvatar", (Objeto*) new Cubo(1.0, 0.0, 0.0, 1.0));
-	escena->objetos["cuboAvatar"]->posX = 11.1;
-	escena->objetos["cuboAvatar"]->posZ = 1;*/
-
-    
-    escena->agregaObjeto("center", (Objeto*) new Cubo(0.1, 1.0, 0.0, 0.0));
-    escena->objetos["center"]->posX = 0.0;
-    escena->objetos["center"]->posY = 2.0;
-    escena->objetos["center"]->posZ = 0.0;
 
 }
 

@@ -9,4 +9,6 @@ void girarIzquierda();
 
 void girarDerecha();
 
+void moverAtras();
+
 void redimensiona(int width,int height);

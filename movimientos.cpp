@@ -10,15 +10,36 @@ double degToRad(double deg)
 void moverAdelante(){
 
 		Objeto *aux=escena->objetos["cuboAvatar"];
-		//if(!collision(aux->rotY)){
 			double rotYRad= degToRad(aux->rotY);
-			aux->posZ-= dtran * (cos(rotYRad));
-			aux->posX-=  dtran * (sin(rotYRad));
-			camaraFP->xview=aux->posX+sin(degToRad(aux->rotY));
-			camaraFP->zview=aux->posZ+cos(degToRad(aux->rotY));
-		
+
+			GLfloat difX = sin(degToRad(aux->rotY));
+			GLfloat difZ = cos(degToRad(aux->rotY));
+			if(!escena->impideColision2(escena->objetos["cuboAvatar"],difX, 0.0, difZ)){
+				aux->posZ-= dtran * (cos(rotYRad));
+				aux->posX-=  dtran * (sin(rotYRad));
+				camaraFP->xview=aux->posX+sin(degToRad(aux->rotY));
+				camaraFP->zview=aux->posZ+cos(degToRad(aux->rotY));
+			}
+			
 		redimensiona(currWidth,currHeight);
-	//}
+
+}
+
+void moverAtras()
+{
+	Objeto *aux=escena->objetos["cuboAvatar"];
+			double rotYRad= degToRad(aux->rotY);
+
+			GLfloat difX = sin(degToRad(aux->rotY));
+			GLfloat difZ = cos(degToRad(aux->rotY));
+			if(!escena->impideColision2(escena->objetos["cuboAvatar"],difX, 0.0, difZ)){
+				aux->posZ+= dtran * (cos(rotYRad));
+				aux->posX+=  dtran * (sin(rotYRad));
+				camaraFP->xview=aux->posX-sin(degToRad(aux->rotY));
+				camaraFP->zview=aux->posZ-cos(degToRad(aux->rotY));
+			}
+			
+		redimensiona(currWidth,currHeight);
 }
 
 void girarIzquierda(){
@@ -30,8 +51,13 @@ void girarIzquierda(){
 	//camaraPrimeraPersona->yrot-=MOUSE_MUL_RY * drot;
 
 	//traslada camara
-	camaraFP->xview=aux->posX+sin(degToRad(aux->rotY));
-	camaraFP->zview=aux->posZ+cos(degToRad(aux->rotY));
+	GLfloat difX = sin(degToRad(aux->rotY));
+	GLfloat difZ = cos(degToRad(aux->rotY));
+	if(!escena->impideColision2(escena->objetos["cuboAvatar"],difX, 0.0, difZ)){
+		camaraFP->xview=aux->posX+sin(degToRad(aux->rotY));
+		camaraFP->zview=aux->posZ+cos(degToRad(aux->rotY));
+	}
+	
 
 	redimensiona(currWidth, currHeight);
 }
@@ -42,8 +68,14 @@ void girarDerecha(){
 	//aux->rotY-=MOUSE_MUL_RY * drot;
 	aux->rotY-=12.5 * drot;
 	//traslada camara
-	camaraFP->xview=aux->posX+sin(degToRad(aux->rotY));
-	camaraFP->zview=aux->posZ+cos(degToRad(aux->rotY));
+
+	GLfloat difX = sin(degToRad(aux->rotY));
+	GLfloat difZ = cos(degToRad(aux->rotY));
+	if(!escena->impideColision2(escena->objetos["cuboAvatar"],difX, 0.0, difZ)){
+		camaraFP->xview=aux->posX+sin(degToRad(aux->rotY));
+		camaraFP->zview=aux->posZ+cos(degToRad(aux->rotY));
+	}
+
 	//rota la camara hacia derecha
 	//camaraPrimeraPersona->yrot+=MOUSE_MUL_RY * drot;
 	//camaraPrimeraPersona->xview+=20;	
