@@ -18,7 +18,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v100</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -43,6 +43,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <OmitDefaultLibName>false</OmitDefaultLibName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -54,6 +55,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -71,6 +73,7 @@
     <ClCompile Include="..\misComposiciones.cpp" />
     <ClCompile Include="..\misInteracciones.cpp" />
     <ClCompile Include="..\misObjetos.cpp" />
+    <ClCompile Include="..\movimientos.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Escena.h" />
@@ -82,6 +85,7 @@
     <ClInclude Include="..\misComposiciones.h" />
     <ClInclude Include="..\misInteracciones.h" />
     <ClInclude Include="..\misObjetos.h" />
+    <ClInclude Include="..\movimientos.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

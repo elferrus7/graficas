@@ -8,6 +8,8 @@ extern Camara *activa;
 //Definiciones de camaras especiales
 extern Camara *camaraZenital;
 
+extern Camara *camaraFP;
+
 void defineCamaras();
 
 

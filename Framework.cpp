@@ -9,7 +9,7 @@
 #include "misCamaras.h"
 
 //Deshabilita la consola  (exclusivo para Windows - Visual Studio)
-#pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
+//#pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
 
 //Variables globales
 Escena *escena = new Escena();  //Escena actual
@@ -62,12 +62,23 @@ void redimensiona(int width,int height) {
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();    
   gluPerspective(activa->fovy,(GLdouble)width/(GLdouble)height,activa->near,activa->far);
-  glTranslatef(activa->xview,activa->yview,activa->zview); 
-  glRotatef(activa->xrot,1.0,0.0,0.0);
-  glRotatef(activa->yrot,0.0,1.0,0.0);
-  glRotatef(activa->zrot,0.0,0.0,1.0);
-  glViewport(0,0,width,height);
+  if(activa != camaraFP){
+	  glTranslatef(activa->xview,activa->yview,activa->zview); 
+	  glRotatef(activa->xrot,1.0,0.0,0.0);
+	  glRotatef(activa->yrot,0.0,1.0,0.0);
+	  glRotatef(activa->zrot,0.0,0.0,1.0);
+	  glViewport(0,0,width,height);
+  }else{
+	  gluLookAt(camaraFP->xview, camaraFP->yview, camaraFP->zview, escena->objetos["cuboAvatar"]->posX, camaraFP->yview, escena->objetos["cuboAvatar"]->posZ, 0, 1, 0);
+	  glViewport(0,0,width,height);
+  }
+  
   glMatrixMode(GL_MODELVIEW);
+  ////////////////////////
+	/*glMatrixMode(GL_PROJECTION); //hace la matriz projection actual
+	glLoadIdentity(); //martiz identidad
+	gluLookAt(10,10,10,0,0,0,10,0,0);
+	glMatrixMode(GL_MODELVIEW);*/
 }
 
 int main( int argc, char **argv) {

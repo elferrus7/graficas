@@ -1,4 +1,5 @@
 #include "misInteracciones.h"
+#include "movimientos.h"
 
 GLuint selectBuf[PICKBUFSIZE];
 
@@ -16,24 +17,32 @@ void miTeclado(unsigned char key,int x,int y)
              case '-': activa->zview-=dtran;
              redimensiona(currWidth,currHeight);
              break;*/
-        case '1' : activa = camaraDefault; break;
+        case '1' : activa = camaraFP; 
+				   redimensiona(currWidth,currHeight); 
+				   break;
             
-        case '2' : activa = camaraZenital; break;
-            
-        case 'd': activa->yrot+=drot;
-            redimensiona(currWidth,currHeight);
+        case '2' : activa = camaraZenital;
+				   redimensiona(currWidth,currHeight);
+				   break;
+		case '3' : escena->objetos["cuboAvatar"]->escalaUniforme(0.0);
+				   activa->fovy = 45.0;
+				   redimensiona(currWidth,currHeight);
+				break;
+		case 'D':    
+        case 'd': 
+			girarDerecha();
             break;
-            /*case 'w': activa->zrot+=drot;
-             redimensiona(currWidth,currHeight);
-             break;*/
+		case 'W':
+        case 'w': 
+			moverAdelante();
+            break;
             /*case 'z': activa->zrot+=drot;
              redimensiona(currWidth,currHeight);
              break;*/
-            
-        case 'a': activa->yrot-=drot;
-            redimensiona(currWidth,currHeight);
+		case 'A':    
+        case 'a': 
+            girarIzquierda();
             break;
-            
             /*case 's': activa->zrot-=drot;
              redimensiona(currWidth,currHeight);
              break;*/

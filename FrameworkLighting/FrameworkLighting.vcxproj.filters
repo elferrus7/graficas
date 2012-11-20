@@ -42,6 +42,9 @@
     <ClCompile Include="..\misObjetos.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
+    <ClCompile Include="..\movimientos.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Escena.h">
@@ -69,6 +72,9 @@
       <Filter>Archivos de código fuente</Filter>
     </ClInclude>
     <ClInclude Include="..\misObjetos.h">
+      <Filter>Archivos de código fuente</Filter>
+    </ClInclude>
+    <ClInclude Include="..\movimientos.h">
       <Filter>Archivos de código fuente</Filter>
     </ClInclude>
   </ItemGroup>

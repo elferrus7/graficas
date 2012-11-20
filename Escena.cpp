@@ -386,9 +386,9 @@ Modelo::Modelo(string nombreArchivo):Objeto()
 
 	this->nombreArchivo=nombreArchivo;
 	// Para MAC OS X:
-    sprintf(ruta,"%s.obj",nombreArchivo.c_str());
+    //sprintf(ruta,"%s.obj",nombreArchivo.c_str());
     // Para Windows:
-    //sprintf(ruta,"modelos/%s.obj",nombreArchivo.c_str());
+    sprintf(ruta,"modelos/%s.obj",nombreArchivo.c_str());
 	modelo=glmReadOBJ(ruta);
 	usaTexturas=false;
 	if(modelo)
@@ -406,9 +406,9 @@ Modelo::Modelo(string nombreArchivo,int modoTextura):Objeto()
 
 	this->nombreArchivo=nombreArchivo;
 	// Para MAC OS X:
-    sprintf(ruta,"%s.obj",nombreArchivo.c_str());
+    //sprintf(ruta,"%s.obj",nombreArchivo.c_str());
     // Para Windows:
-    //sprintf(ruta,"modelos/%s.obj",nombreArchivo.c_str());
+    sprintf(ruta,"modelos/%s.obj",nombreArchivo.c_str());
 	modelo=glmReadOBJ(ruta);
 	usaTexturas=true;
 	desplazaTexturas=false;
@@ -785,7 +785,7 @@ void Escena::ilumina()
   glEnable(GL_COLOR_MATERIAL);
   glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER,GL_TRUE);
   glLightModeli(GL_LIGHT_MODEL_TWO_SIDE,GL_TRUE);
-  glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL,GL_SEPARATE_SPECULAR_COLOR);
+  //glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL,GL_SEPARATE_SPECULAR_COLOR);
   glShadeModel(GL_SMOOTH);
   for (int i=0; i<MAX_LUCES; i++) 
   {

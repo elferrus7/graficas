@@ -197,8 +197,17 @@ void jeff(){
 	escena->objetos["jeff"]->posZ = -16.0;
 }
 
+void avatar()
+{
+	escena->agregaObjeto("cuboAvatar", (Objeto *) new Modelo("JeffTexturizado1"));
+	//escena->objetos["al"]->escalaUniforme(3.0);
+	escena->objetos["cuboAvatar"]->posX =11.1;
+	escena->objetos["cuboAvatar"]->posZ = 1.0;
+}
+
 void creaCasa(){
 	paredesCasa();
+	avatar();
 	jeff();
 }
 
@@ -209,5 +218,8 @@ void creaEscena()
     escena->agregaObjeto("cubo1", (Objeto*) new Cubo(1.0, 0.0, 0.0, 1.0));
     escena->objetos["cubo1"]->posX = -3.0;
     escena->objetos["cubo1"]->posY = 1.0;
+	/*escena->agregaObjeto("cuboAvatar", (Objeto*) new Cubo(1.0, 0.0, 0.0, 1.0));
+	escena->objetos["cuboAvatar"]->posX = 11.1;
+	escena->objetos["cuboAvatar"]->posZ = 1;*/
 }
 

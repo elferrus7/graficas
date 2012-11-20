@@ -12,7 +12,8 @@
  */
 #pragma once
 
-#include <GLUT/glut.h>
+//#include <GLUT/glut.h>
+#include <gl/glut.h>
 
 #ifndef M_PI
 #define M_PI 3.14159265f
