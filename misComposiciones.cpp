@@ -258,118 +258,220 @@ void paredesCasa(){
 }
 
 void jeff(){
-	escena->agregaObjeto("jeff", (Objeto *) new Cubo(1.0, 1.0, 0.0, 0.0));
+	escena->agregaObjeto("jeff", (Objeto *) new Modelo("JeffSinAgruparText1"));
+
 	escena->objetos["jeff"]->posX = 3.0;
-	escena->objetos["jeff"]->posY = 0.0;
+	escena->objetos["jeff"]->posY = -0.5;
 	escena->objetos["jeff"]->posZ = -16.0;
 	escena->objetos["jeff"]->agregaKeyFrame(0.0, 
 											3.0, 0.0, -16.0, 
 											0.0, 0.0, 0.0, 
 											1.0, 1.0, 1.0);
-    escena->objetos["jeff"]->agregaKeyFrame(80.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(80.0, 
 											3.0, 0.0, -9.5, 
 											0.0, 0.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(180.0, 
+    escena->objetos["jeff"]->agregaKeyFrame(85.0, 
+											3.0, 0.0, -9.5, 
+											0.0, 90.0, 0.0,
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(185.0, 
+											11.0, 0.0, -9.5, 
+											0.0, 90.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(190.0, 
 											11.0, 0.0, -9.5, 
 											0.0, 0.0, 0.0, 
 											1.0, 1.0, 1.0);
-    escena->objetos["jeff"]->agregaKeyFrame(220.0, 
+    escena->objetos["jeff"]->agregaKeyFrame(225.0, 
 											11.0, 0.0, -7, 
 											0.0, 0.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(360.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(230.0, 
+											11.0, 0.0, -7, 
+											0.0, 90.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(365.0, 
 											23.0, 0.0, -7, 
-											0.0, 0.0, 0.0, 
+											0.0, 90.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(560.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(370.0, 
+											23.0, 0.0, -7, 
+											0.0, 180.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(580.0, 
 											23.0, 0.0, -25.5, 
-											0.0, 0.0, 0.0, 
+											0.0, 180.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(620.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(585.0, 
+											23.0, 0.0, -25.5, 
+											0.0, 270.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(640.0, 
 											17.5, 0.0, -25.5, 
-											0.0, 0.0, 0.0, 
+											0.0, 270.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(660.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(645.0, 
+											17.5, 0.0, -25.5, 
+											0.0, 180.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(680.0, 
 											17.5, 0.0, -28.5, 
-											0.0, 0.0, 0.0, 
+											0.0, 180.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(740.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(685.0, 
+											17.5, 0.0, -28.5, 
+											0.0, 90.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(760.0, 
 											22.0, 0.0, -28.5, 
-											0.0, 0.0, 0.0, 
+											0.0, 90.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(780.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(765.0, 
+											22.0, 0.0, -28.5, 
+											0.0, 180.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(800.0, 
 											22.0, 0.0, -32.5, 
-											0.0, 0.0, 0.0, 
+											0.0, 180.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(820.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(805.0, 
+											22.0, 0.0, -32.5, 
+											0.0, 270.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(840.0, 
+											17.5, 0.0, -32.5, 
+											0.0, 270.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(860.0, 
 											17.5, 0.0, -32.5, 
 											0.0, 0.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(1000.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(1040.0, 
 											17.5, 0.0, -12.5, 
 											0.0, 0.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(1020.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(1045.0, 
+											17.5, 0.0, -12.5, 
+											0.0, 90.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1070.0, 
 											19.0, 0.0, -12.5, 
-											0.0, 0.0, 0.0, 
+											0.0, 90.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(1100.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(1075.0, 
+											19.0, 0.0, -12.5, 
+											0.0, 180.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1120.0, 
 											19.0, 0.0, -18.5, 
-											0.0, 0.0, 0.0, 
+											0.0, 180.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(1140.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(1125.0, 
+											19.0, 0.0, -18.5, 
+											0.0, 90.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1180.0, 
+											23.0, 0.0, -18.5, 
+											0.0, 90.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1185.0, 
 											23.0, 0.0, -18.5, 
 											0.0, 0.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(1320.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(1370.0, 
 											23.0, 0.0, -2, 
 											0.0, 0.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(1360.0, 
-											19.0, 0.0, -2, 
-											0.0, 0.0, 0.0, 
-											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(1380.0, 
-											19.0, 0.0, -3, 
-											0.0, 0.0, 0.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(1375.0, 
+											23.0, 0.0, -2, 
+											0.0, 270.0, 0.0, 
 											1.0, 1.0, 1.0);
 	escena->objetos["jeff"]->agregaKeyFrame(1420.0, 
+											19.0, 0.0, -2, 
+											0.0, 270.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1425.0, 
+											19.0, 0.0, -2, 
+											0.0, 180.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1445.0, 
+											19.0, 0.0, -3, 
+											0.0, 180.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1450.0, 
+											19.0, 0.0, -3, 
+											0.0, 90.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1490.0, 
 											23.5, 0.0, -3, 
-											0.0, 0.0, 0.0, 
+											0.0, 90.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(1460.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(1495.0, 
+											23.5, 0.0, -3, 
+											0.0, 180.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1515.0, 
 											23.5, 0.0, -7, 
-											0.0, 0.0, 0.0, 
+											0.0, 180.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(1580.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(1520.0, 
+											23.5, 0.0, -7, 
+											0.0, 270.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1640.0, 
 											11.0, 0.0, -7, 
-											0.0, 0.0, 0.0, 
+											0.0,270.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(1700.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(1645.0, 
+											11.0, 0.0, -7, 
+											0.0,180.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1765.0, 
 											11.0, 0.0, -21, 
-											0.0, 0.0, 0.0, 
+											0.0, 180.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(1740.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(1770.0, 
+											11.0, 0.0, -21, 
+											0.0, 270.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1810.0, 
 											7.0, 0.0, -21, 
-											0.0, 0.0, 0.0, 
+											0.0, 270.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(1780.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(1815.0, 
+											7.0, 0.0, -21, 
+											0.0, 90.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1855.0, 
+											11.0, 0.0, -21, 
+											0.0, 90.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(1860.0, 
 											11.0, 0.0, -21, 
 											0.0, 0.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(2080.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(1980.0, 
 											11.0, 0.0, -2.5, 
 											0.0, 0.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(2180.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(1985.0, 
+											11.0, 0.0, -2.5, 
+											0.0, 270.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(2185.0, 
 											3.0, 0.0, -2.5, 
-											0.0, 0.0, 0.0, 
+											0.0, 270.0, 0.0, 
 											1.0, 1.0, 1.0);
-	escena->objetos["jeff"]->agregaKeyFrame(2260.0, 
+	escena->objetos["jeff"]->agregaKeyFrame(2190.0, 
+											3.0, 0.0, -2.5, 
+											0.0, 180.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(2270.0, 
 											3.0, 0.0, -16, 
-											0.0, 0.0, 0.0, 
+											0.0, 180.0, 0.0, 
 											1.0, 1.0, 1.0);
+
 
 }
 
