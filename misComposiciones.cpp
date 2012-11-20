@@ -191,10 +191,76 @@ void paredesCasa(){
 }
 
 void jeff(){
-	escena->agregaObjeto("jeff", (Objeto *) new Cubo(0.25, 1.0, 0.0, 0.0));
-	escena->objetos["jeff"]->posX = 2.0;
-	escena->objetos["jeff"]->posY = 0.5;
+	escena->agregaObjeto("jeff", (Objeto *) new Cubo(1.0, 1.0, 0.0, 0.0));
+	escena->objetos["jeff"]->posX = 3.0;
+	escena->objetos["jeff"]->posY = 0.0;
 	escena->objetos["jeff"]->posZ = -16.0;
+	escena->objetos["jeff"]->agregaKeyFrame(0.0, 
+											3.0, 0.0, -16.0, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+    escena->objetos["jeff"]->agregaKeyFrame(40.0, 
+											3.0, 0.0, -9.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+    escena->objetos["jeff"]->agregaKeyFrame(80.0, 
+											11.0, 0.0, -9.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+    escena->objetos["jeff"]->agregaKeyFrame(120.0, 
+											11.0, 0.0, -7.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(160.0, 
+											23.0, 0.0, -7.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(240.0, 
+											23.0, 0.0, -25.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(280.0, 
+											17.5, 0.0, -25.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(320.0, 
+											17.5, 0.0, -28.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(360.0, 
+											22.0, 0.0, -28.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(400.0, 
+											22.0, 0.0, -32.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(440.0, 
+											17.5, 0.0, -32.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(480.0, 
+											17.5, 0.0, -12.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(520.0, 
+											19.0, 0.0, -12.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(560.0, 
+											19.0, 0.0, -18.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(600.0, 
+											23.0, 0.0, -18.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+	escena->objetos["jeff"]->agregaKeyFrame(640.0, 
+											23.0, 0.0, -2.5, 
+											0.0, 0.0, 0.0, 
+											1.0, 1.0, 1.0);
+
+
 }
 
 void avatar()

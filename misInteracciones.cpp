@@ -130,52 +130,6 @@ void miIdle()
 {
     //Definir acciones especiales que deben ejecutarse en el idle del ciclo de GLUT
     
-	if(itr < 400){
-		rumbo = 1;
-	}else if( itr < 600){
-		rumbo = 2;
-	}else if( itr < 800){
-		rumbo = 3;
-	}else{
-		rumbo = 4;
-	}
-    
-    
-	switch(rumbo){
-        case 1:
-            escena->objetos["jeff"]->posX += 0.01;
-            if(escena->objetos["jeff"]->posX == 10){
-                escena->objetos["jeff"]->posX *= -1;
-            }
-            break;
-        case 2:
-            escena->objetos["jeff"]->posX -= 0.01;
-            if(escena->objetos["jeff"]->posX == 0){
-                escena->objetos["jeff"]->posX *= -1;
-            }
-            break;
-        case 3:
-            escena->objetos["jeff"]->posZ += 0.01;
-            if(escena->objetos["jeff"]->posZ == 0){
-                escena->objetos["jeff"]->posZ *= -1;
-            }
-            break;
-        case 4:
-            escena->objetos["jeff"]->posZ -= 0.01;
-            if(escena->objetos["jeff"]->posZ == -17){
-                escena->objetos["jeff"]->posZ *= -1;
-            }
-            break;
-        default: 
-            escena->objetos["jeff"]->posX += 0.01;
-            break;
-	}
-    
-	itr++;
-    
-	if(itr > 800){
-		itr = 0;
-	}
     
 }
 void startPicking(int cursorX, int cursorY) {
