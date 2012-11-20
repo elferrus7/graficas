@@ -199,7 +199,7 @@ void jeff(){
 
 void avatar()
 {
-	escena->agregaObjeto("cuboAvatar", (Objeto *) new Modelo("JeffTexturizado1"));
+	escena->agregaObjeto("cuboAvatar", (Objeto *) new Modelo("avatar"));
 	//escena->objetos["al"]->escalaUniforme(3.0);
 	escena->objetos["cuboAvatar"]->posX =11.1;
 	escena->objetos["cuboAvatar"]->posZ = 1.0;
