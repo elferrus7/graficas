@@ -105,7 +105,7 @@ void redimensiona(int width,int height) {
 
 int main( int argc, char **argv) {
 	glutInit(&argc,argv);	
-	init(WIN_POSX,WIN_POSY,WIN_WIDTH,WIN_HEIGHT,"Framework Texture");
+	init(WIN_POSX,WIN_POSY,WIN_WIDTH,WIN_HEIGHT,"JEFF THE KILLER!!!!");
 	glutDisplayFunc(render);
 	glutIdleFunc(idle);
 	glutReshapeFunc(redimensiona);

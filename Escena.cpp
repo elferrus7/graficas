@@ -924,9 +924,9 @@ void Escena::cargaTextura(string nombre,int type,int wrap,int filter)
 	GLbyte *img;
 
     // Para MAC OS X:
-	sprintf(ruta,"%s",nombre.c_str());
+	//sprintf(ruta,"%s",nombre.c_str());
     //Para Windows:
-    //sprintf(ruta,"texturas/%s",nombre.c_str());
+    sprintf(ruta,"texturas/%s",nombre.c_str());
     img=gltLoadTGA(ruta, &width, &height, &components, &format);
 	if(img==NULL) 
 	{

@@ -3,7 +3,7 @@
 
 // Variables para la CASA
 #define ALTOCASA	2.0
-#define ANCHOPARED	0.2
+#define ANCHOPARED	0.15
 
 void defineLuces()
 {
@@ -132,7 +132,7 @@ void pruebaPicking(){
 /* ---------- Definición de métodos para cargar la casa ----------- */
 /* ---------------------------------------------------------------- */
 
-void pared2(string snombre, GLfloat largo, GLfloat posX, GLfloat posZ, bool rot, string textura){
+void pared2(string snombre, GLfloat largo, GLfloat posX, GLfloat posZ, bool rot, string textura1, string textura2, GLfloat scale1, GLfloat scale2){
     const char* nombre = snombre.c_str();
     escena->agregaObjeto(nombre, (Objeto *) new Cubo(1.0, 1.0, 1.0, 1.0));
     escena->objetos[nombre]->escalaY = ALTOCASA;
@@ -142,10 +142,10 @@ void pared2(string snombre, GLfloat largo, GLfloat posX, GLfloat posZ, bool rot,
     int nTapiz = largo/ALTOCASA;
     for(int i=0; i<nTapiz; i++){
         sprintf(nombreTapiz1, "%st%dA", nombre, i);
-        escena->agregaObjeto(nombreTapiz1, (Objeto *) new AlphaQuad(escena, "AZULEJO.tga", GL_REPEAT, 0.9, ALTOCASA, ALTOCASA, 0, 0, 0.5, 0, 0));
-        
+        escena->agregaObjeto(nombreTapiz1, (Objeto *) new AlphaQuad(escena, textura1, GL_REPEAT, 0.8, ALTOCASA, ALTOCASA, 0, 0, scale1, 0, 0));
+
         sprintf(nombreTapiz2, "%st%dB", nombre, i);
-        escena->agregaObjeto(nombreTapiz2, (Objeto *) new AlphaQuad(escena, "AZULEJO.tga", GL_REPEAT, 0.9, ALTOCASA, ALTOCASA, 0, 0, 0.5, 0, 0));
+        escena->agregaObjeto(nombreTapiz2, (Objeto *) new AlphaQuad(escena, textura2, GL_REPEAT, 0.8, ALTOCASA, ALTOCASA, 0, 0, scale2, 0, 0));
         
         if( !rot ){
             escena->objetos[nombreTapiz1]->rotY = 90;
@@ -156,9 +156,9 @@ void pared2(string snombre, GLfloat largo, GLfloat posX, GLfloat posZ, bool rot,
             escena->objetos[nombreTapiz2]->posX = posX + ANCHOPARED + 0.01;
         } else {
             escena->objetos[nombreTapiz1]->posX = posX + ALTOCASA/2 + i*ALTOCASA;
-            escena->objetos[nombreTapiz1]->posZ = posZ + ANCHOPARED/2 - 0.075;
+            escena->objetos[nombreTapiz1]->posZ = posZ + 0.01;
             escena->objetos[nombreTapiz2]->posX = posX + ALTOCASA/2 + i*ALTOCASA;
-            escena->objetos[nombreTapiz2]->posZ = posZ - ANCHOPARED - 0.025;
+            escena->objetos[nombreTapiz2]->posZ = posZ - ANCHOPARED - 0.01;
         }
         
     }
@@ -170,12 +170,12 @@ void pared2(string snombre, GLfloat largo, GLfloat posX, GLfloat posZ, bool rot,
     } else {
         escena->objetos[nombre]->escalaX = largo;
         escena->objetos[nombre]->escalaZ = ANCHOPARED;
-        
+
     }
     
     escena->objetos[nombre]->posX = posX + escena->objetos[nombre]->escalaX / 2;
     escena->objetos[nombre]->posZ = posZ - escena->objetos[nombre]->escalaZ / 2;
-    
+
 }
 
 void pared(string nombre, GLfloat largo, GLfloat posX, GLfloat posZ, bool rot, string textura){
@@ -213,48 +213,100 @@ void pared(string nombre, GLfloat largo, GLfloat posX, GLfloat posZ, bool rot, s
     escena->objetos[cubo2]->posZ = posZ - 0.005 - escena->objetos[cubo2]->escalaZ / 2;
 }
 
+void superficie(string nombre, GLfloat ancho, GLfloat largo, GLfloat posX, GLfloat posZ, string textura, GLfloat scale, bool techo){
+    escena->agregaObjeto(nombre, (Objeto *) new AlphaQuad(escena, textura, GL_REPEAT, 1.0, ancho, largo, 0, 0, scale, 0, 0));
+    escena->objetos[nombre]->rotX = 90;
+    escena->objetos[nombre]->posX = posX + ancho/2;
+    if(techo){
+        escena->objetos[nombre]->posY = 0 + ALTOCASA/2 + 0.01;
+    } else {
+        escena->objetos[nombre]->posY = 0 - ALTOCASA/2 - 0.01;
+    }
+    escena->objetos[nombre]->posZ = posZ - largo/2;
+}
+
+void pisosCasa(){
+    superficie("pprincipal", 22, 24, 2, 0, "floor2.tga", 0.05, false);
+    superficie("pintIzquierdo", 2, 18, 0, 0, "floor2.tga", 0.5, false);
+    superficie("pintComedor", 8, 10, 16, -24, "floor2.tga", 0.15, false);
+    superficie("patioPrincipal", 16, 10, 0, -24, "plaster.tga", 0.2, false);
+    superficie("patioPasillo", 2, 6, 0, -18, "plaster.tga", 0.6, false);
+}
+
+void techosCasa(){
+    superficie("tprincipal", 22, 24, 2, 0, "plaster.tga", 0.05, true);
+    superficie("tintIzquierdo", 2, 18, 0, 0, "plaster.tga", 0.5, true);
+    superficie("tintComedor", 8, 10, 16, -24, "plaster.tga", 0.15, true);
+}
+
 void paredesCasa(){
-    
-    pared2("E1", 18.0, 0.0, 0.0, false, "azulejo.tga");
-    pared2("E2", 10.0, 0.0, 0.0, true, "azulejo.tga");
-    pared2("E3", 2.0, 10.0, 0.0, false, "metal_scratches.tga");
-    pared2("E4", 4.0, 10.0, -4.0, false, "metal_scratches.tga");
-    pared2("E5", 6.0, 4.0, -8.0, true, "metal_scratches.tga");
-    pared2("E6", 2.0, 0.0, -8.0, true, "metal_scratches.tga");
-    pared2("E7", 2.0, 0.0, -12.0, true, "metal_scratches.tga");
-    pared2("E8", 2.0, 2.0, -10.0, false, "metal_scratches.tga");
-    pared2("E9", 6.0, 4.0, -10.0, true, "metal_scratches.tga");
-    pared2("E10", 4.0, 6.0, -10.0, false, "metal_scratches.tga");
-    pared2("E11", 8.0, 10.0, -10.0, false, "metal_scratches.tga");
-    pared2("E12", 2.0, 0.0, -8.0, true, "metal_scratches.tga");
-    pared2("E13", 10.0, 0.0, -18.0, true, "metal_scratches.tga");
-    pared2("E14", 6.0, 2.0, -18.0, false, "metal_scratches.tga");
-    pared2("E15", 14.0, 2.0, -24.0, true, "metal_scratches.tga");
-    pared2("E16", 2.0, 10.0, -22.0, false, "metal_scratches.tga");
-    pared2("E17", 2.0, 10.0, -18.0, false, "metal_scratches.tga");
-    pared2("E18", 14.0, 0.0, -20.0, false, "metal_scratches.tga");
-    pared2("E19", 24.0, 0.0, -34.0, true, "metal_scratches.tga");
-    pared2("E20", 34.0, 24.0, 0.0, false, "metal_scratches.tga");
-    pared2("E21", 8.0, 16.0, -26.0, false, "metal_scratches.tga");
-    pared2("E22", 6.0, 18.0, -26.0, true, "metal_scratches.tga");
-    pared2("E23", 2.0, 12.0, -22.0, false, "metal_scratches.tga");
-    pared2("E24", 6.0, 16.0, -18.0, false, "metal_scratches.tga");
-    pared2("E25", 4.0, 12.0, -18.0, true, "metal_scratches.tga");
-    pared2("E26", 2.0, 12.0, -18.0, false, "metal_scratches.tga");
-    pared2("E27", 8.0, 18.0, -14.0, false, "metal_scratches.tga");
-    pared2("E28", 4.0, 18.0, -20.0, true, "metal_scratches.tga");
-    pared2("E29", 4.0, 18.0, -24.0, true, "metal_scratches.tga");
-    pared2("E30", 4.0, 22.0, -20.0, false, "metal_scratches.tga");
-    pared2("E31", 10.0, 22.0, -8.0, false, "metal_scratches.tga");
-    pared2("E32", 10.0, 12.0, -8.0, true, "metal_scratches.tga");
-    pared2("E33", 8.0, 12.0, -8.0, false, "metal_scratches.tga");
-    pared2("E34", 4.0, 12.0, -16.0, true, "metal_scratches.tga");
-    pared2("E35", 6.0, 16.0, -6.0, true, "metal_scratches.tga");
-    pared2("E36", 2.0, 16.0, -14.0, false, "metal_scratches.tga");
-    pared2("E37", 12.0, 12.0, 0.0, true, "metal_scratches.tga");
-    pared2("E38", 6.0, 16.0, -0.0, false, "metal_scratches.tga");
-    pared2("E39", 6.0, 12.0, -0.0, false, "metal_scratches.tga");
-    pared2("E40", 2.0, 12.0, -6.0, true, "metal_scratches.tga");
+    pared2("E1", 8.0, 0.0, 0.0, false, "metal_scratches.tga", "pared2.tga", 1.0, 1.0);
+    pared2("E2", 10.0, 0.0, 0.0, true, "plaster2.tga", "pared2.tga", 1.0, 1.0);
+    pared2("E3", 2.0, 10.0, 0.0, false, "pared2.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E4", 4.0, 10.0, -4.0, false, "pared2.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E5", 6.0, 4.0, -8.0, true, "pared2.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E6", 2.0, 0.0, -8.0, true, "pared2.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E7", 2.0, 0.0, -12.0, true, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E8", 2.0, 2.0, -10.0, false, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E9", 2.0, 4.0, -10.0, true, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E10", 4.0, 6.0, -10.0, false, "metal_scratches.tga", "azulejo.tga", 1.0, 0.3);
+    pared2("E11", 8.0, 10.0, -10.0, false, "azulejo.tga", "metal_scratches.tga", 0.3, 1.0);
+    pared2("E12", 2.0, 6.0, -16.0, false, "metal_scratches.tga", "azulejo.tga", 1.0, 0.3);
+    pared2("E13", 6.0, 0.0, -18.0, true, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E14", 6.0, 2.0, -18.0, false, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E15", 14.0, 2.0, -24.0, true, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E16", 2.0, 10.0, -22.0, false, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E17", 2.0, 10.0, -18.0, false, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E18", 14.0, 0.0, -20.0, false, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E19", 24.0, 0.0, -34.0, true, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E20", 34.0, 24.0, 0.0, false, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E21", 8.0, 16.0, -26.0, false, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E22", 6.0, 18.0, -26.0, true, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E23", 2.0, 12.0, -22.0, false, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E24", 6.0, 16.0, -18.0, false, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E25", 4.0, 12.0, -18.0, true, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E26", 2.0, 12.0, -18.0, false, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E27", 2.0, 18.0, -20.0, false, "metal_scratches.tga", "azulejo.tga", 1.0, 1.0);
+    pared2("E28", 4.0, 18.0, -20.0, true, "rust.tga", "azulejo.tga", 1.0, 0.3);
+    pared2("E29", 4.0, 18.0, -24.0, true, "azulejo.tga", "metal_scratches.tga", 0.3, 1.0);
+    pared2("E30", 4.0, 22.0, -20.0, false, "azulejo.tga", "metal_scratches.tga", 0.3, 1.0);
+    pared2("E31", 10.0, 22.0, -8.0, false, "rust.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E32", 10.0, 12.0, -8.0, true, "metal_scratches.tga", "rust.tga", 1.0, 1.0);
+    pared2("E33", 8.0, 12.0, -8.0, false, "metal_scratches.tga", "rust.tga", 1.0, 1.0);
+    pared2("E34", 4.0, 12.0, -16.0, true, "rust.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E35", 6.0, 16.0, -6.0, true, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E36", 2.0, 16.0, -14.0, false, "rust.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E37", 12.0, 12.0, 0.0, true, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E38", 6.0, 16.0, -0.0, false, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E39", 6.0, 12.0, -0.0, false, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E40", 2.0, 12.0, -6.0, true, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E41", 4.0, 6.0, -18.0, true, "azulejo.tga", "metal_scratches.tga", 0.3, 1.0);
+    pared2("E42", 4.0, 6.0, -10.0, true, "metal_scratches.tga", "azulejo.tga", 1.0, 0.3);
+    pared2("E43", 4.0, 0.0, -8.0, false, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E44", 6.0, 0.0, -12.0, false, "metal_scratches.tga", "metal_scratches.tga", 1.0, 1.0);
+    pared2("E45", 6.0, 18.0, -14.0, false, "metal_scratches.tga", "rust.tga", 1.0, 1.0);
+}
+
+void cielo(){
+    escena->agregaObjeto("cielo", (Objeto *) new Esfera(100, 40, 40, 0.0, 0.0, 1.0));
+}
+
+void sueloMundo(){
+    superficie("sueloMundo", 100, 100, -50, 50, "grass.tga", 0.01, false);
+    escena->objetos["sueloMundo"]->posY -= 0.01;
+}
+
+void sala(){
+	escena->agregaObjeto("cuboSSala", (Objeto *) new Cubo(1.0, 0.0, 0.0, 0.0));
+	escena->objetos["cuboSSala"]->posX = 3.0;
+	escena->objetos["cuboSSala"]->posY = 0.0;
+	escena->objetos["cuboSSala"]->posZ = -3.0;
+	escena->objetos["cuboSSala"]->defineMaterial(1.0,1.0,1.0,
+                                               1.0,1.0,1.0,
+                                               0.0,0.0,0.0,
+                                               0.0,0.0,0.0,
+                                               "transparente.tga",GL_REPEAT,1.0,0.0,0.0,0.0,0.0,1.0,GL_SPHERE_MAP,false);
+	escena->objetos["cuboSSala"]->agregaDescendiente("silla", (Objeto *) new Modelo("silla"));
 }
 
 void jeff(){
@@ -485,8 +537,13 @@ void avatar()
 
 void creaCasa(){
 	paredesCasa();
+    pisosCasa();
+    techosCasa();
+    cielo();
+    sueloMundo();
 	avatar();
 	jeff();
+	
 }
 
 void creaEscena()
